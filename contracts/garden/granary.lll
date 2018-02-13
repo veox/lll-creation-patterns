@@ -48,7 +48,9 @@
                    0x00 (calldatasize))
      ;; CREATE seed, saving its address
      (mstore *memloc-seed-addr*
-             (create *memloc-wrapped-seed* (+ *wrapper-size* 1 (calldatasize))))
+             (create 0
+                     *memloc-wrapped-seed*
+                     (+ *wrapper-size* 1 (calldatasize))))
 
      ;; destination address must be non-zero (i.e. CREATE succeeded)
      (when (= 0 (mload *memloc-seed-addr*)) (revert 0 0))
