@@ -12,10 +12,19 @@
   ;; ==========================================================================
   ;; MEMORY LAYOUT
 
-  (def '*memloc-plant-addr* 0x00) ; store created contract's address here
-  (def '*memloc-seed-addr*  0x20) ; will copy runtime bytecode from here
-  (def '*memloc-seed-size*  0x40) ; size of runtime bytecode
-  (def '*memloc-seed-code*  0x60) ; where the to-clone code will _start_
+  (def '*memloc-plant-addr* 0x100) ; store created contract's address here
+  (def '*memloc-seed-addr*  0x120) ; will copy runtime bytecode from here
+  (def '*memloc-seed-size*  0x140) ; size of runtime bytecode
+  (def '*memloc-seed-code*  0x160) ; where the to-clone code will _start_
+  (def '*memloc-data-size*  0x180) ; size of data to pass on (0 if none)
+
+  ;; ==========================================================================
+  ;; CALLDATA LAYOUT
+
+  (def '*cdloc-function-selector* 0x00)
+  (def '*cdloc-seed-addr*         0x04)
+  (def '*cdloc-data-size*         0x24)
+  (def '*cdloc-data*              0x44)
 
   ;; ==========================================================================
   ;; CONSTANTS
@@ -23,7 +32,8 @@
   ;; TODO: isn't it 0x7f?..
   (def '*max-precomp-addr* 0xff) ; addresses reserved for precompiles
 
-  (def '*plant* 0x00000000) ; plant(address)
+  (def '*plant*           0x00000000) ; plant(address)
+  (def '*plant-with-data* 0x00000000) ; plant(address,bytes)
 
   (def '*event-planted* ; planted(address,address)
        0x4b9f42fe89b8e6ddd0f1686d85da84e8ef528d915998e18563d662f5eba78032)
@@ -39,40 +49,52 @@
   (returnlll
    (seq
      unpayable
+     mstore-function-selector
 
-     ;; call data can be either 4+32 bytes (web3-compliant)...
+     ;; call data can be either 4+32 bytes...
      (when (= 36 (calldatasize))
        (seq
          ;; check for matching web3 function selector
-         (unless (= *plant* calldata-function-selector) (revert 0 0))
+         (unless (= *plant* (mload *memloc-function-selector*)) (revert 0 0))
          ;; load address as-is (assume web3-compliant call data)
-         (mstore *memloc-seed-addr* (calldataload 0x04))))
-     ;; ...or 20 bytes (just the address)
-     (when (= 20 (calldatasize))
+         (mstore *memloc-seed-addr* (calldataload *cdloc-seed-addr*))))
+     ;; or 4+(32*N) bytes (where N > 1)
+     (when (>= 68 (calldatasize))
        (seq
-         ;; right-align 20 bytes in 32 bytes of memory (8*12==96)
-         (mstore *memloc-seed-addr* (/ (calldataload 0x00) (exp 2 96)))))
+         ;; check for matching web3 function selector
+         (unless (= *plant-with-data* (mload *memloc-function-selector*)) (revert 0 0))
+         ;; save data size for later
+         (mstore *memloc-data-size* (calldataload *cdloc-data-size*))
+         ;; check call data length validity
+         (unless (= (calldatasize) (+ 68 (mload *cdloc-data-size*))) (revert 0 0))
+         ;; load address as-is (assume web3-compliant call data)
+         (mstore *memloc-seed-addr* (calldataload *cdloc-seed-addr*))))
 
      ;; must have determined source address by now; and won't clone precompiles
      (when (<= (mload *memloc-seed-addr*) *max-precomp-addr*) (revert 0 0))
 
-     ;; get source's code size (remove first REVERT byte)
-     (mstore *memloc-seed-size* (- (extcodesize (mload *memloc-seed-addr*)) 1))
+     ;; get source's code size (including the first REVERT byte)
+     (mstore *memloc-seed-size* (extcodesize (mload *memloc-seed-addr*)))
      ;; it must be non-zero
      (when (= 0 (mload *memloc-seed-size*)) (revert 0 0))
 
      ;; copy source code to memory
      (extcodecopy (mload *memloc-seed-addr*)  ; source address
                   *memloc-seed-code*          ; where to copy the code to
-                  1                           ; where the code starts in source
+                  0                           ; where the code starts in source
                   (mload *memloc-seed-size*)) ; how much to copy
 
-          ;; create new contract from memory, saving the destination's address
+     ;; first byte of seed's code must indeed be a REVERT
+     (def '*revert-opcode* 0xfd)
+     (unless (= *revert-opcode* (byte 0 (mload *memloc-seed-code*))) (revert 0 0))
+
+     ;; CREATE new contract from memory, saving the destination's address
+     ;; NOTE: this skips the first REVERT byte!
      (mstore
       *memloc-plant-addr*
-      (create 0                            ; wei to transfer
-              *memloc-seed-code*           ; where to copy the code from
-              (mload *memloc-seed-size*))) ; how much to copy
+      (create 0                                  ; wei to transfer
+              (+ 1 *memloc-seed-code*)           ; where to copy the code from
+              (- (mload *memloc-seed-size*) 1))) ; how much to copy
 
      ;; destination address must be non-zero (i.e. CREATE succeeded)
      (when (= 0 (mload *memloc-plant-addr*)) (revert 0 0))
