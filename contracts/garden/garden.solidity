@@ -1,0 +1,7 @@
+pragma solidity ^0.4.19;
+
+interface garden {
+    function plant(address _seed) public;
+    function plant(address _seed, bytes _data) public;
+    //event planted(address indexed _caller, address indexed _seed, address _plant);
+}
