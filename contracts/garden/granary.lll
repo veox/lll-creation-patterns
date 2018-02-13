@@ -42,6 +42,7 @@
 
      ;; copy all call data to AFTER the wrapper, plus one byte: that should
      ;; remain a 0x00 (STOP), preventing direct execution of CREATEd contract
+     ;; FIXME: make it a REVERT or something, so funds don't get stuck
      (calldatacopy (+ *memloc-wrapped-seed* *wrapper-size* 1)
                    0x00
                    (calldatasize))
