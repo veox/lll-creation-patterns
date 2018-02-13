@@ -1,0 +1,59 @@
+;;;; ==========================================================================
+;;;; @title Granary
+;;;; @notice Stores passed data as code in an external contract, for later use
+;;           as a "seed" (CREATE template).
+;;;; @author Noel Maersk <veox>
+
+(seq
+  (include "../common.lll.inc")
+
+  ;; ==========================================================================
+  ;; MEMORY LAYOUT
+
+  (def '*memloc-seed-addr*    0x00) ; where the seed has been stored
+  (def '*memloc-wrapped-seed* 0x20) ; in-memory location of seed with wrapper
+
+  ;; ==========================================================================
+  ;; CONSTANTS
+
+  ;; TODO: web3 function?..
+
+  (def '*event-stored* ; stored(address,address)
+       0x80f98d04d1becbc593f48d29b8754efe77f13b4c5f30a780314173b680699ece)
+
+  ;; ==========================================================================
+  ;; INIT
+
+  ; none!
+
+  ;; ==========================================================================
+  ;; CODE
+
+  (returnlll
+   (seq
+     unpayable
+
+     ;; requires deployment code to be passed as data!
+     (when (= (calldatasize) 0) (revert 0 0))
+
+     ;; always start the to-clone code with this, aligned "left"
+     (mstore *memloc-wrapped-seed* (* *wrapper*
+                                     (exp 2 (- 256 (* *wrapper-size* 8)))))
+
+     ;; copy all call data to AFTER the wrapper, plus one byte: that should
+     ;; remain a 0x00 (STOP), preventing direct execution of CREATEd contract
+     (calldatacopy (+ *memloc-wrapped-seed* (+ *wrapper-size* 1))
+                   0x00
+                   (calldatasize))
+     ;; CREATE seed contract, saving its address
+     (mstore *memloc-seed-addr*
+             (create *memloc-seed* *seed-with-wrapper-size*))
+
+     ;; destination address must be non-zero (i.e. CREATE succeeded)
+     (when (= 0 (mload *memloc-dest-addr*)) (revert 0 0))
+
+     ;; success!
+     (emit1 *event-stored*                   ; event id, indexed
+            (caller)                         ; who requested storing, indexed
+            (mload *memloc-dest-addr*) 0x20) ; where it was stored, unindexed
+     (return *memloc-dest-addr* 0x20))))

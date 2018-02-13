@@ -1,0 +1,10 @@
+;;;; ==========================================================================
+;;;; @title Garden
+;;;; @notice Runs external contract code in CREATE - plants the seed.
+;;;; @author Noel Maersk <veox>
+
+(seq
+  (include "../common.lll.inc")
+
+  ;; TODO
+)
