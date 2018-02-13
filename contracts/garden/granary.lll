@@ -36,16 +36,16 @@
      ;; requires deployment code to be passed as data!
      (when (= (calldatasize) 0) (revert 0 0))
 
-     ;; start the CREATE code with this "just copy it"  wrapper, aligned "left"
-     (mstore *memloc-wrapped-seed* (* *wrapper*
-                                     (exp 2 (- 256 (* *wrapper-size* 8)))))
+     ;; start the CREATE code with a "just copy and return it"  wrapper,
+     ;; followed by a "revert immediately" guard, both aligned "left"
+     (def '*wrapper-with-revert* (& (* 2 *wrapper*) 0xfd))
+     (mstore *memloc-wrapped-seed*
+             (* *wrapper-with-revert*
+                (exp 2 (* 8 (- 32 *wrapper-size* 1)))))
 
-     ;; copy all call data to AFTER the wrapper, plus one byte: that should
-     ;; remain a 0x00 (STOP), preventing direct execution of CREATEd contract
-     ;; FIXME: make it a REVERT or something, so funds don't get stuck
+     ;; copy all call data to AFTER the wrapper-plus-one-byte
      (calldatacopy (+ *memloc-wrapped-seed* *wrapper-size* 1)
-                   0x00
-                   (calldatasize))
+                   0x00 (calldatasize))
      ;; CREATE seed, saving its address
      (mstore *memloc-seed-addr*
              (create *memloc-wrapped-seed* (+ *wrapper-size* 1 (calldatasize))))
