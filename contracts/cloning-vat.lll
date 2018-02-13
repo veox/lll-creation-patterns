@@ -48,7 +48,7 @@
      (when (= 20 (calldatasize))
        (seq
          ;; right-align 20 bytes in 32 bytes of memory (8*12==96)
-         (mstore *memloc-source-addr* (div (calldataload 0x00) (exp 2 96)))))
+         (mstore *memloc-source-addr* (/ (calldataload 0x00) (exp 2 96)))))
 
      ;; must have determined source address by now; and won't clone precompiles
      (when (<= (mload *memloc-source-addr*) *max-precomp-addr*) (revert 0 0))
