@@ -109,4 +109,4 @@
   ;; @notice Modifier macro to prevent unintended payments.
 
   (def 'unpayable
-       (when (callvalue) (panic))))
+       (when (callvalue) (revert 0 0))))
