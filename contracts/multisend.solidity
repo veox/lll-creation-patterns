@@ -1,5 +1,0 @@
-pragma solidity ^0.4.19;
-
-interface multisend {
-    function sendMany(address[] _to, uint256[] _amt) public pure;
-}
