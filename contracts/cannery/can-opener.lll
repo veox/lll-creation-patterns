@@ -12,18 +12,18 @@
   ;; ==========================================================================
   ;; MEMORY LAYOUT
 
-  (def '*memloc-plant-addr* 0x100) ; store created contract's address here
-  (def '*memloc-seed-addr*  0x120) ; will copy runtime bytecode from here
-  (def '*memloc-seed-size*  0x140) ; size of runtime bytecode
+  (def '*memloc-veg-addr* 0x100)   ; store created contract's address here
+  (def '*memloc-can-addr*  0x120)  ; will copy runtime bytecode from here
+  (def '*memloc-can-size*  0x140)  ; size of runtime bytecode
   (def '*memloc-data-size*  0x160) ; size of data to pass on (0 if none)
-  (def '*memloc-seed-code*  0x180) ; where the to-clone code will _start_
+  (def '*memloc-can-code*  0x180)  ; where the to-clone code will _start_
 
   ;; ==========================================================================
   ;; CALLDATA LAYOUT
 
   (def '*cdloc-function-selector* 0x00)
-  (def '*cdloc-seed-addr*         0x04)
-  (def '*cdloc-data-size*         0x24)
+  (def '*cdloc-can-addr*          0x04)
+  (def '*cdloc-data-size*         0x24) ; FIXME: missing *cdloc-data-loc*?..
   (def '*cdloc-data*              0x44)
 
   ;; ==========================================================================
@@ -32,11 +32,11 @@
   ;; TODO: isn't it 0x7f?..
   (def '*max-precomp-addr* 0xff) ; addresses reserved for precompiles
 
-  (def '*plant*           0x00000000) ; plant(address)
-  (def '*plant-with-data* 0x00000000) ; plant(address,bytes)
+  (def '*open*           0x00000000) ; open(address)
+  (def '*open-with-data* 0x00000000) ; open(address,bytes)
 
-  (def '*event-planted* ; planted(address,address)
-       0x4b9f42fe89b8e6ddd0f1686d85da84e8ef528d915998e18563d662f5eba78032)
+  (def '*event-opened* ; opened(address,address)
+       0x6a5e677bbcf69000145b06b544171fc934a174f2f6761de26f6884606a6f0507)
 
   ;; ==========================================================================
   ;; INIT
@@ -55,66 +55,67 @@
      (when (= 36 (calldatasize))
        (seq
          ;; check for matching web3 function selector
-         (unless (= *plant* (mload *memloc-function-selector*)) (revert 0 0))
+         (unless (= *open* (mload *memloc-function-selector*)) (revert 0 0))
          ;; load address as-is (assume web3-compliant call data)
-         (mstore *memloc-seed-addr* (calldataload *cdloc-seed-addr*))))
+         (mstore *memloc-can-addr* (calldataload *cdloc-can-addr*))))
      ;; or 4+(32*N) bytes (where N > 1)
      (when (>= 68 (calldatasize))
        (seq
          ;; check for matching web3 function selector
-         (unless (= *plant-with-data* (mload *memloc-function-selector*)) (revert 0 0))
+         (unless (= *open-with-data* (mload *memloc-function-selector*)) (revert 0 0))
          ;; save data size for later
          (mstore *memloc-data-size* (calldataload *cdloc-data-size*))
          ;; check call data length validity
          (unless (= (calldatasize) (+ 68 (mload *cdloc-data-size*))) (revert 0 0))
          ;; load address as-is (assume web3-compliant call data)
-         (mstore *memloc-seed-addr* (calldataload *cdloc-seed-addr*))))
+         (mstore *memloc-can-addr* (calldataload *cdloc-can-addr*))))
 
      ;; must have determined source address by now; and won't clone precompiles
-     (when (<= (mload *memloc-seed-addr*) *max-precomp-addr*) (revert 0 0))
+     (when (<= (mload *memloc-can-addr*) *max-precomp-addr*) (revert 0 0))
 
      ;; get source's code size (including the first REVERT byte)
-     (mstore *memloc-seed-size* (extcodesize (mload *memloc-seed-addr*)))
+     (mstore *memloc-can-size* (extcodesize (mload *memloc-can-addr*)))
      ;; it must be non-zero
-     (when (= 0 (mload *memloc-seed-size*)) (revert 0 0))
+     (when (= 0 (mload *memloc-can-size*)) (revert 0 0))
 
-     ;; copy source code to memory
-     (extcodecopy (mload *memloc-seed-addr*)  ; source address
-                  *memloc-seed-code*          ; where to copy the code to
-                  0                           ; where the code starts in source
-                  (mload *memloc-seed-size*)) ; how much to copy
+     ;; copy source code to memory (yes, all of it!)
+     (extcodecopy (mload *memloc-can-addr*)  ; source address
+                  *memloc-can-code*          ; where to copy the code to
+                  0                          ; where the code starts in source
+                  (mload *memloc-can-size*)) ; how much to copy
 
-     ;; first byte of seed's code must indeed be a REVERT
+     ;; first byte of can's code must indeed be a REVERT
      (def '*revert-opcode* 0xfd)
-     (unless (= *revert-opcode* (byte 0 (mload *memloc-seed-code*))) (revert 0 0))
+     (unless (= *revert-opcode* (byte 0 (mload *memloc-can-code*))) (revert 0 0))
 
      ;; append provided data to CREATE code
-     (when (= *plant-with-data* (mload *memloc-function-selector*))
+     (when (= *open-with-data* (mload *memloc-function-selector*))
        (calldatacopy
-        (+ *memloc-seed-code*
-           (mload *memloc-seed-size*)) ; where in memory to copy to
-        *cdloc-data*                   ; where in call data to copy from
-        (mload *memloc-data-size*)))   ; how much of call data to copy
+        (+ *memloc-can-code*
+           (mload *memloc-can-size*)) ; where in memory to copy to
+        *cdloc-data*                  ; where in call data to copy from
+        (mload *memloc-data-size*)))  ; how much of call data to copy
 
      ;; CREATE new contract from memory, saving the destination's address
-     ;; NOTE: *memloc-data-size* should contain 0 if `plant(address)` was used
+     ;; NOTE: *memloc-data-size* should contain 0 if `open(address)` was used
      (mstore
-      *memloc-plant-addr*
-      (create 0                                  ; wei to transfer
-              (+ 1 *memloc-seed-code*)           ; where to start copying from
+      *memloc-veg-addr*
+      (create 0                               ; wei to transfer
+              (+ 1 *memloc-can-code*)         ; where to start copying from
               (-                              ; (skip the first REVERT byte)
-               (+ (mload *memloc-seed-size*)  ; (do copy the seed code...
-                  (mload *memloc-data-size*)) ; and data, if any was provided)
-               1)))                              ; how much to copy
+               (+ (mload *memloc-can-size*)   ; (do copy the can's code...)
+                  (mload *memloc-data-size*)) ; (and data, if any was provided)
+               1)))                           ; how much to copy
 
      ;; destination address must be non-zero (i.e. CREATE succeeded)
-     (when (= 0 (mload *memloc-plant-addr*)) (revert 0 0))
+     (when (= 0 (mload *memloc-veg-addr*)) (revert 0 0))
 
      ;; TODO: more checks before declaring it a success?..
 
      ;; success!
-     (emit2 *event-planted*                   ; event id, indexed
-            (caller)                          ; who requested planting, indexed
-            (mload *memloc-seed-addr*)        ; what was planted, indexed
-            (mload *memloc-plant-addr*) 0x20) ; where it was planted to, unindexed
-     (return *memloc-plant-addr* 0x20))))
+     (emit2 *event-opened*                  ; event id, indexed
+            (caller)                        ; who requested opening, indexed
+            (mload *memloc-can-addr*)       ; what was opened, indexed
+            (mload *memloc-veg-addr*) 0x20) ; where it was opened to, unindexed
+     (return *memloc-veg-addr* 0x20))))
+ 
