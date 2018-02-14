@@ -1,7 +1,7 @@
 ;;;; ==========================================================================
-;;;; @title Granary
-;;;; @notice Stores passed data as code in an external contract, for later use
-;;           as a "seed" (CREATE template).
+;;;; @title Cannery
+;;;; @notice Stores passed data as code in an external contract, "canned" with
+;;;;         a guard, so it can't be executed directly.
 ;;;; @author Noel Maersk <veox>
 
 (seq

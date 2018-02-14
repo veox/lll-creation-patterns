@@ -1,6 +1,6 @@
 pragma solidity ^0.4.19;
 
-interface granary {
-    function () public; // actually takes bytes
-    //event stored(address indexed _caller, address _seed);
+interface cannery {
+    function () public; // actually consumes all of the call data
+    //event canned(address indexed _caller, address _can);
 }

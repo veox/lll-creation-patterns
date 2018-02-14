@@ -1,7 +1,7 @@
 ;;;; ==========================================================================
-;;;; @title Garden
+;;;; @title Can opener
 ;;;; @notice Runs external contract code (sans first byte) through CREATE:
-;;;;         plants the seed.
+;;;;         "opens the can".
 ;;;;         A lot of the code was copied from `cloning-vat`, then tweaked for
 ;;;;         this particular use case.
 ;;;; @author Noel Maersk <veox>

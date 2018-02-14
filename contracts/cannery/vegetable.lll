@@ -1,6 +1,6 @@
 ;;;; ==========================================================================
-;;;; @title Seed
-;;;; @notice Dummy contract to demostrate storing/planting. Returns 42.
+;;;; @title Vegetable
+;;;; @notice Dummy contract to demostrate canning/uncanning. Returns 42.
 ;;;; @author Noel Maersk <veox>
 
 (seq

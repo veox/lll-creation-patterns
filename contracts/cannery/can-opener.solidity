@@ -1,7 +1,7 @@
 pragma solidity ^0.4.19;
 
-interface garden {
-    function plant(address _seed) public;
-    function plant(address _seed, bytes _data) public;
-    //event planted(address indexed _caller, address indexed _seed, address _plant);
+interface can_opener {
+    function open(address _can) public;
+    function open(address _can, bytes _data) public;
+    //event opened(address indexed _caller, address indexed _can, address _vegetable);
 }
