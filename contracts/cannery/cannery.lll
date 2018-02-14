@@ -56,7 +56,7 @@
      (when (= 0 (mload *memloc-can-addr*)) (revert 0 0))
 
      ;; success!
-     (emit1 *event-stored*                  ; event id, indexed
+     (emit1 *event-canned*                  ; event id, indexed
             (caller)                        ; who requested storing, indexed
             (mload *memloc-can-addr*) 0x20) ; where it was stored, unindexed
      (return *memloc-can-addr* 0x20))))
