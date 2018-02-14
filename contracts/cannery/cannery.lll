@@ -38,7 +38,8 @@
 
      ;; start the CREATE code with a "just copy and return it"  wrapper,
      ;; followed by a "revert immediately" guard, both aligned "left"
-     (def '*wrapper-with-revert* (& (* 2 *wrapper*) 0xfd))
+     ;; TODO: use `|` instead of `or` when fixed emacs' lll-mode syntax HLing
+     (def '*wrapper-with-revert* (or (shl *wrapper* 8) 0xfd))
      (mstore *memloc-wrapped-can*
              (* *wrapper-with-revert*
                 (exp 2 (* 8 (- 32 *wrapper-size* 1)))))

@@ -11,7 +11,7 @@
   ;; --------------------------------------------------------------------------
   ;; @author Noel Maersk <veox>
   ;; @notice Raw code that copies everything but itself - to be used during
-  ;;         CREATE in cloning-vat/garden patterns.
+  ;;         CREATE in cloning-vat/cannery patterns.
   ;; @dev MUST be 32 bytes or less: commonly used directly with `mstore`!
   ;; ----------------------------------------------------------------------
   ;; PUSH1 wrapper_size ; 0x60 0x0e

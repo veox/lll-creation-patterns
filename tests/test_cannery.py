@@ -1,3 +1,5 @@
+from ethereum.tester import TransactionFailed
+
 def print_memdump(chain, txreceipt):
     print('-'*33 + 'MEMDMP' + '-'*33)
     data = txreceipt['logs'][0]['data']
