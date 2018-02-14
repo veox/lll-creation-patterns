@@ -45,19 +45,31 @@ def test_cannery(chain):
 
     # see what's in the can (cheat!)
     canbytecode = chain.web3.eth.getCode(canaddr)
+    revertguard = '0x600080fd'
+    # "normal" runtime bytecode is in the can
+    assert bytecode[2:] in canbytecode[2:]
+    # the can has a revert guard
+    assert canbytecode.startswith(revertguard)
+    # there is nothing else but the can and its contents
+    assert canbytecode == revertguard + bytecode[2:]
+
+    # DEBUG
     print('can', canaddr, 'bytecode:')
     print(canbytecode)
     print('-'*72)
 
-    # attempt to call can directly (should fail)
+    # attempt to call can directly (should REVERT with very low gas use)
     transaction = {
         'from': chain.web3.eth.coinbase,
         'to':   canaddr,
-        'gas': 100000, # TODO: this seems not to be used :/
+        'gas': 100000, # TODO: this seems not to be used?.. :/
     }
     with pytest.raises(TransactionFailed):
         txhash = chain.web3.eth.sendTransaction(transaction)
     txreceipt = chain.wait.for_receipt(txhash)
+    # FIXME: Populus uses an ancient version of `pyethereum`; looks like
+    # it doesn't know of REVERT and its reduced gas use
+    #assert txreceipt['gasUsed'] < 21100
 
     # DEBUG
     print('transaction:', transaction)

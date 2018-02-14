@@ -11,7 +11,7 @@
   ;; MEMORY LAYOUT
 
   (def '*memloc-can-addr*    0x100) ; where the can has been stored
-  (def '*memloc-wrapped-can* 0x120) ; in-memory location of can with wrapper
+  (def '*memloc-can*         0x120) ; in-memory location of can with wrappers
 
   ;; ==========================================================================
   ;; CONSTANTS
@@ -39,13 +39,16 @@
      ;; start the CREATE code with a "just copy and return it"  wrapper,
      ;; followed by a "revert immediately" guard, both aligned "left"
      ;; TODO: use `|` instead of `or` when fixed emacs' lll-mode syntax HLing
-     (def '*wrapper-with-revert* (or (shl *wrapper* 8) 0xfd))
-     (mstore *memloc-wrapped-can*
-             (* *wrapper-with-revert*
-                (exp 2 (* 8 (- 32 *wrapper-size* 1)))))
+     (def '*revert-guard* 0x600080fd) ; PUSH1 0x00 DUP1 REVERT
+     (def '*revert-guard-size* 4)
+     (def '*wrapper-with-revert* (or (shl *wrapper* (* 8 *revert-guard-size*))
+                                     *revert-guard*))
+     (mstore *memloc-can*
+             (shl *wrapper-with-revert*
+                  (* 8 (- 32 *wrapper-size* *revert-guard-size*))))
 
-     ;; copy all call data to AFTER the wrapper-plus-one-byte
-     (calldatacopy (+ *memloc-wrapped-can* *wrapper-size* 1)
+     ;; copy all call data to AFTER the wrapper-with-revert
+     (calldatacopy (+ *memloc-can* *wrapper-size* *revert-guard-size*)
                    0x00 (calldatasize))
 
      ;; DEBUG: uncomment to view memory during execution
@@ -54,8 +57,8 @@
      ;; CREATE can, saving its address
      (mstore *memloc-can-addr*
              (create 0
-                     *memloc-wrapped-can*
-                     (+ *wrapper-size* 1 (calldatasize))))
+                     *memloc-can*
+                     (+ *wrapper-size* *revert-guard-size* (calldatasize))))
 
      ;; destination address must be non-zero (i.e. CREATE succeeded)
      (when (= 0 (mload *memloc-can-addr*)) (revert 0 0))
