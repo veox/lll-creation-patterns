@@ -1,0 +1,23 @@
+;;;; ==========================================================================
+;;;; @title Seed
+;;;; @notice Dummy contract to demostrate storing/planting. Returns 42.
+;;;; @author Noel Maersk <veox>
+
+(seq
+  (include "../common.lll.inc")
+
+  ;; ==========================================================================
+  ;; INIT
+
+  ; none!
+
+  ;; ==========================================================================
+  ;; CODE
+
+  (returnlll
+   (seq
+     unpayable
+
+     (def '*memloc* 0x00)
+     (mstore *memloc* 42)
+     (return *memloc* 0x20)))

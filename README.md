@@ -1,6 +1,10 @@
-# lll-contracts
+# lll-creation-patterns
 
-These are a few simple LLL examples.
+Various ways to implement Ethereum contract copying, at different degrees
+of homogeneity, using LLL.
+
+See [`lll-contracts`](https://gitlab.com/veox/lll-contracts), where the
+programs here originated from, for some simpler examples.
 
 [Populus](https://github.com/ethereum/populus/) is used for development.
 Although `requirements.txt` specifies `populus==2.1.0`, the actual version

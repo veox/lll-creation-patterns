@@ -1,0 +1,6 @@
+pragma solidity ^0.4.19;
+
+interface granary {
+    function () public; // actually takes bytes
+    //event stored(address indexed _caller, address _seed);
+}

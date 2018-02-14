@@ -70,10 +70,10 @@
   ;; @param indexed Data chunk that will also be indexed by in logs.
   ;; @param data Non-indexed data to be placed in logs.
   ;; @param datasize Number of bytes in data.
-
+  
   (def 'emit1 (id indexed data datasize)
        (seq
-         (mstore *memloc-scratchpad* data)
+         (mstore *memloc-scratchpad* data) ; TODO: use `alloc` instead?
          (log2 *memloc-scratchpad* datasize id indexed)))
 
   ;; --------------------------------------------------------------------------
@@ -88,7 +88,7 @@
 
   (def 'emit2 (id indexed0 indexed1 data datasize)
        (seq
-         (mstore *memloc-scratchpad* data)
+         (mstore *memloc-scratchpad* data) ; TODO: use `alloc` instead?
          (log3 *memloc-scratchpad* datasize id indexed0 indexed1)))
 
   ;; --------------------------------------------------------------------------
@@ -109,4 +109,4 @@
   ;; @notice Modifier macro to prevent unintended payments.
 
   (def 'unpayable
-       (when (callvalue) (panic))))
+       (when (callvalue) (revert 0 0))))

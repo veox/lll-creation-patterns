@@ -17,19 +17,19 @@ def create_greeter(chain, factory):
 
 ########################################################################
 
-def test_factory_creates_greeters(chain):
-    factory, _ = chain.provider.get_or_deploy_contract('factory')
+def test_press_stamps_greeters(chain):
+    sp, _ = chain.provider.get_or_deploy_contract('stamping-press')
 
-    greeter0addr = create_greeter(chain, factory)
-    greeter1addr = create_greeter(chain, factory)
+    greeter0addr = create_greeter(chain, sp)
+    greeter1addr = create_greeter(chain, sp)
 
     assert greeter0addr != greeter1addr
 
-def test_greeter(chain):
-    factory, _ = chain.provider.get_or_deploy_contract('factory')
+def test_stamped_greeter(chain):
+    sp, _ = chain.provider.get_or_deploy_contract('stamping-press')
 
     Greeter = chain.provider.get_contract_factory('greeter')
-    greeteraddr = create_greeter(chain, factory)
+    greeteraddr = create_greeter(chain, sp)
     greeter = Greeter(address=greeteraddr)
 
     greeting = greeter.call().greet()

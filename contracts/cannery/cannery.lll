@@ -1,0 +1,62 @@
+;;;; ==========================================================================
+;;;; @title Granary
+;;;; @notice Stores passed data as code in an external contract, for later use
+;;           as a "seed" (CREATE template).
+;;;; @author Noel Maersk <veox>
+
+(seq
+  (include "../common.lll.inc")
+
+  ;; ==========================================================================
+  ;; MEMORY LAYOUT
+
+  (def '*memloc-seed-addr*    0x00) ; where the seed has been stored
+  (def '*memloc-wrapped-seed* 0x20) ; in-memory location of seed with wrapper
+
+  ;; ==========================================================================
+  ;; CONSTANTS
+
+  ;; TODO: web3-compatible function?.. but why bother?
+
+  (def '*event-stored* ; stored(address,address)
+       0x80f98d04d1becbc593f48d29b8754efe77f13b4c5f30a780314173b680699ece)
+
+  ;; ==========================================================================
+  ;; INIT
+
+  ; none!
+
+  ;; ==========================================================================
+  ;; CODE
+
+  (returnlll
+   (seq
+     unpayable
+
+     ;; requires deployment code to be passed as data!
+     (when (= (calldatasize) 0) (revert 0 0))
+
+     ;; start the CREATE code with a "just copy and return it"  wrapper,
+     ;; followed by a "revert immediately" guard, both aligned "left"
+     (def '*wrapper-with-revert* (& (* 2 *wrapper*) 0xfd))
+     (mstore *memloc-wrapped-seed*
+             (* *wrapper-with-revert*
+                (exp 2 (* 8 (- 32 *wrapper-size* 1)))))
+
+     ;; copy all call data to AFTER the wrapper-plus-one-byte
+     (calldatacopy (+ *memloc-wrapped-seed* *wrapper-size* 1)
+                   0x00 (calldatasize))
+     ;; CREATE seed, saving its address
+     (mstore *memloc-seed-addr*
+             (create 0
+                     *memloc-wrapped-seed*
+                     (+ *wrapper-size* 1 (calldatasize))))
+
+     ;; destination address must be non-zero (i.e. CREATE succeeded)
+     (when (= 0 (mload *memloc-seed-addr*)) (revert 0 0))
+
+     ;; success!
+     (emit1 *event-stored*                   ; event id, indexed
+            (caller)                         ; who requested storing, indexed
+            (mload *memloc-seed-addr*) 0x20) ; where it was stored, unindexed
+     (return *memloc-seed-addr* 0x20))))
