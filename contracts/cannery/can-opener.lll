@@ -32,8 +32,8 @@
   ;; TODO: isn't it 0x7f?..
   (def '*max-precomp-addr* 0xff) ; addresses reserved for precompiles
 
-  (def '*open*           0x00000000) ; open(address)
-  (def '*open-with-data* 0x00000000) ; open(address,bytes)
+  (def '*open*           0xb95460f8) ; open(address)
+  (def '*open-with-data* 0x61ba6405) ; open(address,bytes)
 
   (def '*event-opened* ; opened(address,address)
        0x6a5e677bbcf69000145b06b544171fc934a174f2f6761de26f6884606a6f0507)
