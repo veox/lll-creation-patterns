@@ -1,3 +1,4 @@
+import pytest
 from ethereum.tester import TransactionFailed
 
 def print_memdump(chain, txreceipt):
@@ -26,14 +27,15 @@ def test_cannery(chain):
         'to':   cannery.address,
         'data': bytecode,
     }
-    print(transaction) # DEBUG
     txhash = chain.web3.eth.sendTransaction(transaction)
     txreceipt = chain.wait.for_receipt(txhash)
 
-    print_memdump(chain, txreceipt) # DEBUG (uncomment here and in contract!)
+    # print_memdump(chain, txreceipt) # DEBUG (uncomment here and in contract!)
 
-    print(txhash)    # DEBUG
-    print(txreceipt) # DEBUG
+    # DEBUG
+    print('transaction:', transaction)
+    print(txhash)
+    print(txreceipt)
     print('-'*72)
 
     # get can's address from log
@@ -43,7 +45,7 @@ def test_cannery(chain):
 
     # see what's in the can (cheat!)
     canbytecode = chain.web3.eth.getCode(canaddr)
-    print('can bytecode:')
+    print('can', canaddr, 'bytecode:')
     print(canbytecode)
     print('-'*72)
 
@@ -51,12 +53,15 @@ def test_cannery(chain):
     transaction = {
         'from': chain.web3.eth.coinbase,
         'to':   canaddr,
-        'gas': 42000
+        'gas': 100000, # TODO: this seems not to be used :/
     }
-    txhash = chain.web3.eth.sendTransaction(transaction)
+    with pytest.raises(TransactionFailed):
+        txhash = chain.web3.eth.sendTransaction(transaction)
     txreceipt = chain.wait.for_receipt(txhash)
 
-    print(txhash)    # DEBUG
-    print(txreceipt) # DEBUG
+    # DEBUG
+    print('transaction:', transaction)
+    print(txhash)
+    print(txreceipt)
     
     assert False

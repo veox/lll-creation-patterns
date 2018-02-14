@@ -49,7 +49,7 @@
                    0x00 (calldatasize))
 
      ;; DEBUG: uncomment to view memory during execution
-     (log1 0x00 0x200 0x0101010101010101010101010101010101010101010101010101010101010101)
+     ;; (log1 0x00 0x200 0x0101010101010101010101010101010101010101010101010101010101010101)
 
      ;; CREATE can, saving its address
      (mstore *memloc-can-addr*
