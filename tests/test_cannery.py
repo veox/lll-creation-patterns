@@ -1,3 +1,13 @@
+def print_memdump(chain, txreceipt):
+    print('-'*33 + 'MEMDMP' + '-'*33)
+    data = txreceipt['logs'][0]['data']
+    data = data[2:] # snip 0x
+    for i in range(int(len(data)/64)):
+        print(chain.web3.toHex(i*32), data[i*64:i*64+64], sep='\t')
+
+    # FIXME: required since accessing logs by index instead of event id
+    assert False
+
 ########################################################################
 
 def test_cannery(chain):
@@ -14,8 +24,11 @@ def test_cannery(chain):
         'to':   cannery.address,
         'data': bytecode,
     }
+    print(transaction) # DEBUG
     txhash = chain.web3.eth.sendTransaction(transaction)
     txreceipt = chain.wait.for_receipt(txhash)
+
+    print_memdump(chain, txreceipt) # DEBUG (uncomment here and in contract!)
 
     print(txhash)    # DEBUG
     print(txreceipt) # DEBUG
@@ -28,7 +41,8 @@ def test_cannery(chain):
 
     # see what's in the can (cheat!)
     canbytecode = chain.web3.eth.getCode(canaddr)
-    print('can bytecode:', canbytecode)
+    print('can bytecode:')
+    print(canbytecode)
     print('-'*72)
 
     # attempt to call can directly (should fail)

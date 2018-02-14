@@ -10,8 +10,8 @@
   ;; ==========================================================================
   ;; MEMORY LAYOUT
 
-  (def '*memloc-can-addr*    0x00) ; where the can has been stored
-  (def '*memloc-wrapped-can* 0x20) ; in-memory location of can with wrapper
+  (def '*memloc-can-addr*    0x100) ; where the can has been stored
+  (def '*memloc-wrapped-can* 0x120) ; in-memory location of can with wrapper
 
   ;; ==========================================================================
   ;; CONSTANTS
@@ -46,6 +46,10 @@
      ;; copy all call data to AFTER the wrapper-plus-one-byte
      (calldatacopy (+ *memloc-wrapped-can* *wrapper-size* 1)
                    0x00 (calldatasize))
+
+     ;; DEBUG: uncomment to view memory during execution
+     (log1 0x00 0x200 0x0101010101010101010101010101010101010101010101010101010101010101)
+
      ;; CREATE can, saving its address
      (mstore *memloc-can-addr*
              (create 0
