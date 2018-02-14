@@ -20,4 +20,4 @@
 
      (def '*memloc* 0x00)
      (mstore *memloc* 42)
-     (return *memloc* 0x20)))
+     (return *memloc* 0x20))))
