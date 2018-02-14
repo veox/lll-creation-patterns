@@ -1,6 +1,8 @@
 ;;;; ==========================================================================
 ;;;; @title Cloning Vat: creates 1:1 bytecode copies of existing contracts.
-;;;; @notice Doesn't handle contracts with Solidity-style constructors.
+;;;; @notice Doesn't handle contracts with Solidity-style constructors, nor
+;;;;         has any regard for "missing" init code, or init code that expects
+;;;;         some form of input to be available.
 ;;;; @author Noel Maersk <veox>
 
 (seq

@@ -1,5 +1,9 @@
 ;;;; ==========================================================================
-;;;; @title Factory: creates other pre-defined contracts.
+;;;; @title Stamping press: creates pre-defined contracts, code for which is
+;;;;        contained in its own.
+;;;; @notice This is a near-verbatim copy of `factory` from `lll-contracts`,
+;;;;         where this essentially started:
+;;;;         https://gitlab.com/veox/lll-contracts/blob/0d07d60e/contracts/factory.lll
 ;;;; @author Noel Maersk <veox>
 
 (seq
