@@ -86,4 +86,17 @@ def test_cannery(chain):
     print(txreceipt)
     print('-'*72)
 
-    assert False
+    # get uncanned contract's address from log
+    assert len(txreceipt['logs']) != 0
+    veggieaddr = chain.web3.toChecksumAddress(txreceipt['logs'][0]['data'])
+    assert veggieaddr != '0x0000000000000000000000000000000000000000'
+
+    # see what's in the veggie (cheat!)
+    veggiebytecode = chain.web3.eth.getCode(veggieaddr)
+    # uncanned vegetable's runtime bytecode matches that of never-canned
+    assert veggiebytecode == Vegetable.bytecode_runtime
+
+    # DEBUG
+    print('vegetable', veggieaddr, 'bytecode:')
+    print(veggiebytecode)
+    print('-'*72)
