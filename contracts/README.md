@@ -81,8 +81,8 @@ a `stamping-press` as input, or any other factory for that matter.
 
 ## Cannery (and complementary can opener)
 
-Something similar [has been proposed][shared] as the `shared` keyword
-in Solidity.
+Something similar [has been proposed][shared] as the `copyof` or
+`shared` keyword in Solidity.
 
 [shared]: https://github.com/ethereum/solidity/issues/2296
 
