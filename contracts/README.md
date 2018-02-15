@@ -24,7 +24,7 @@ The latter was chosen for its atavistic outlook on the EVM.
 > No gods! No masters! No babysitters!
 
 **NOTE:** Intentionally ironically, I have not deployed the
-implementations provided here to any public networks yet.
+implementations provided here to any public networks, yet.
 
 The tests are in [`../tests/`][tests].
 
@@ -190,7 +190,8 @@ TODO: not implemented yet!
 * `DELEGATECALL` into an external contract that
 * runs its code to deploy a yet another external contract
 
-`+` pass entire storage as "call data" (2^256 2^256 bit chunks transferred for about 1000 gas? wow, that's fast!..)
+`+` pass entire storage as "call data" (2^256 2^256 bit chunks
+transferred for about 1000 gas? wow, that's cheap!..)
 
 `+` may be useful for "interruptable" contracts
 
