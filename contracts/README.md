@@ -1,5 +1,10 @@
 # Approaches to the Factory pattern for Ethereum contracts
 
+**NOTE:** I have not deployed the implementations to any public networks.
+The tests are [in `../tests/`][tests].
+
+[tests]: ../tests
+
 ## Stamping press
 
 The straightforward Factory. Used in Solidity programs with the `new`
