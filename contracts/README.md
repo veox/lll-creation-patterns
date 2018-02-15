@@ -120,8 +120,8 @@ a `stamping-press` as input, or any other factory for that matter.
 
 [cannery]: cannery
 
-Something similar [has been proposed][shared] as the `copyof` or
-`shared` keyword in Solidity.
+The one-and-only universal Factory. Something similar [has been
+proposed][shared] as the `copyof` or `shared` keyword in Solidity.
 
 [shared]: https://github.com/ethereum/solidity/issues/2296
 
