@@ -63,8 +63,8 @@ def test_cannery(chain):
     with pytest.raises(TransactionFailed):
         txhash = chain.web3.eth.sendTransaction(transaction)
     txreceipt = chain.wait.for_receipt(txhash)
-    # FIXME: Populus uses an ancient version of `pyethereum`; looks like
-    # it doesn't know of REVERT, so terminates as if INVALID was called
+    # FIXME: Populus uses an ancient version of `pyethereum` for testing?..
+    # looks like it doesn't know of REVERT, so terminates as if INVALID was called
     #assert txreceipt['gasUsed'] < 21100
 
     # open the canned vegetable using the can-opener
@@ -82,3 +82,14 @@ def test_cannery(chain):
     myveggiebytecode = chain.web3.eth.getCode(myveggieaddr)
     # uncanned vegetable's runtime bytecode matches that of never-canned
     assert myveggiebytecode == Vegetable.bytecode_runtime
+
+    # try calling it
+    transaction = {
+        'from': chain.web3.eth.coinbase,
+        'to':   myveggieaddr,
+    }
+    txhash = chain.web3.eth.sendTransaction(transaction)
+    txreceipt = chain.wait.for_receipt(txhash)
+    # TODO: check what the fallback returned when Populus supports it
+
+    # TODO: test opening can with data!
