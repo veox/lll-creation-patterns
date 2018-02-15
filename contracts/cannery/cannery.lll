@@ -6,6 +6,7 @@
 
 (seq
   (include "../common.lll.inc")
+  (include "./common.lll.inc")
 
   ;; ==========================================================================
   ;; MEMORY LAYOUT
@@ -39,8 +40,6 @@
      ;; start the CREATE code with a "just copy and return it"  wrapper,
      ;; followed by a "revert immediately" guard, both aligned "left"
      ;; TODO: use `|` instead of `or` when fixed emacs' lll-mode syntax HLing
-     (def '*revert-guard* 0x600080fd) ; PUSH1 0x00 DUP1 REVERT
-     (def '*revert-guard-size* 4)
      (def '*wrapper-with-revert* (or (shl *wrapper* (* 8 *revert-guard-size*))
                                      *revert-guard*))
      (mstore *memloc-can*

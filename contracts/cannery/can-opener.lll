@@ -8,6 +8,7 @@
 
 (seq
   (include "../common.lll.inc")
+  (include "./common.lll.inc")
 
   ;; ==========================================================================
   ;; MEMORY LAYOUT
@@ -84,11 +85,13 @@
                   0                          ; where the code starts in source
                   (mload *memloc-can-size*)) ; how much to copy
 
-     ;; first byte of can's code must indeed be a REVERT
-     (def '*revert-opcode* 0xfd)
-     (unless (= *revert-opcode* (byte 0 (mload *memloc-can-code*))) (revert 0 0))
+     ;; can's code must start with the REVERT guard
+     (unless (= *revert-guard*
+                (shr (mload *memloc-can-code*)
+                     (* 8 (- 32 *revert-guard-size*))))
+       (revert 0 0))
 
-     ;; append provided data to CREATE code
+     ;; if requested, append provided data to CREATE code
      (when (= *open-with-data* (mload *memloc-function-selector*))
        (calldatacopy
         (+ *memloc-can-code*
@@ -101,11 +104,12 @@
      (mstore
       *memloc-veg-addr*
       (create 0                               ; wei to transfer
-              (+ 1 *memloc-can-code*)         ; where to start copying from
-              (-                              ; (skip the first REVERT byte)
+              (+ *memloc-can-code*
+                 *revert-guard-size*)         ; where to start copying from
+              (-                              ; (skip the REVERT guard)
                (+ (mload *memloc-can-size*)   ; (do copy the can's code...)
                   (mload *memloc-data-size*)) ; (and data, if any was provided)
-               1)))                           ; how much to copy
+               *revert-guard-size*)))         ; how much to copy
 
      ;; destination address must be non-zero (i.e. CREATE succeeded)
      (when (= 0 (mload *memloc-veg-addr*)) (revert 0 0))
