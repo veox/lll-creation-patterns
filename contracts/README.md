@@ -1,11 +1,36 @@
 # Approaches to the Factory pattern for Ethereum contracts
 
-**NOTE:** I have not deployed the implementations to any public networks.
-The tests are [in `../tests/`][tests].
+## Introduction
+
+Deploying contracts on Ethereum networks is difficult, at least
+comparing to interacting with already-deployed contracts.
+
+Arguably, it requires an understanding of the underlying virtual
+machine, and developer scaffolding around it, that normal people can't
+afford, in terms of the most universal commodity: time.
+
+For this reason, some Ethereum clients have attempted to ship popular
+contracts, such as multisig wallets, together with the client itself.
+This limits such contracts to a certain client implementation, locks
+the contract's development to the client's development cycle, and
+inevitably passes judgement on what it is that is "popular".
+
+> This is unacceptable!
+
+Below find approaches to deploying contracts using other contracts;
+and _wholly experimental_ implementations of these approaches in LLL.
+The latter was chosen for its atavistic outlook on the EVM.
+
+> No gods! No masters! No babysitters!
+
+**NOTE:** Intentionally ironically, I have not deployed the
+implementations provided here to any public networks yet.
+
+The tests are in [`../tests/`][tests].
 
 [tests]: ../tests
 
-## Stamping press
+## `stamping-press`
 
 The straightforward Factory. Used in Solidity programs with the `new`
 keyword.
@@ -45,7 +70,9 @@ In other words, `FFFo` handles its payload in the same way as `FFo` -
 they have the same basic function - yet, for some reason, they are not
 the same contract!
 
-## Cloning vat
+> We've heard you like recursion, so...
+
+## `cloning-vat`
 
 The honeybadger Factory.
 
@@ -84,7 +111,7 @@ A `cloning-vat` handles just fine being given its own address as the
 target, and creating a perfect copy of itself. It can also be given
 a `stamping-press` as input, or any other factory for that matter.
 
-## Cannery (and complementary can opener)
+## `cannery` (and complementary `can-opener`)
 
 Something similar [has been proposed][shared] as the `copyof` or
 `shared` keyword in Solidity.
@@ -120,10 +147,10 @@ A `cannery` is essentially a `cloning-vat` that gets to see bytecode
 at its earliest stage, before it has been deployed (and its
 initialisation code lost in a historic block).
 
-A further-specialised `cannery` may perform checks that a contract
-submitted to it conforms to some preordained rules, e.g. that its
+A further-specialised `cannery` may perform checks on submitted
+contracts - that they conform to some preordained rules; e.g. that its
 runtime starts with an unconditional `JUMP 35`, followed by 32 bytes,
-followed by a `JUMPDEST`. The 32 bytes may contain a link to the
+followed by a `JUMPDEST`. The 32 bytes would contain a link to the
 submitted contract's source code.
 
 A complementary specialised `can-opener` may then refuse to open the
@@ -134,7 +161,7 @@ in an external clearlist. It may combine both approaches as necessary.
 This is just one imaginary use case for such a "delayed deployment"
 pattern. Many more are certainly possible.
 
-## Assembly line (a.k.a. sequencer)
+## `assembly-line` (a.k.a. `sequencer`)
 
 TODO: not implemented yet!
 
@@ -145,7 +172,7 @@ TODO: not implemented yet!
 
 `+` may be useful for one-shot "transactional" contracts
 
-## Garden
+## `garden` (and `seed`)
 
 TODO: not implemented yet!
 
@@ -153,5 +180,7 @@ TODO: not implemented yet!
 * `DELEGATECALL` into an external contract that
 * runs its code to deploy a yet another external contract
 
-`+` pass entire storage as "call data"
-`-` storage operations are expensive
+`+` pass entire storage as "call data" (2^256 2^256 bit chunks transferred for about 1000 gas? wow, that's fast!..)
+`+` may be useful for "interruptable" contracts
+
+`-` storage operations in general are expensive
