@@ -30,7 +30,9 @@ The tests are in [`../tests/`][tests].
 
 [tests]: ../tests
 
-## `stamping-press`
+## [`stamping-press`][stamping-press] (and `cog`, a.k.a. `greeter`)
+
+[stamping-press]: stamping-press
 
 The straightforward Factory. Used in Solidity programs with the `new`
 keyword.
@@ -72,7 +74,9 @@ the same contract!
 
 > We've heard you like recursion, so...
 
-## `cloning-vat`
+## [`cloning-vat`][cloning-vat]
+
+[cloning-vat]: cloning-vat
 
 The honeybadger Factory.
 
@@ -111,7 +115,9 @@ A `cloning-vat` handles just fine being given its own address as the
 target, and creating a perfect copy of itself. It can also be given
 a `stamping-press` as input, or any other factory for that matter.
 
-## `cannery` (and complementary `can-opener`)
+## [`cannery`][cannery] (and complementary `can-opener`)
+
+[cannery]: cannery
 
 Something similar [has been proposed][shared] as the `copyof` or
 `shared` keyword in Solidity.
@@ -161,7 +167,9 @@ in an external clearlist. It may combine both approaches as necessary.
 This is just one imaginary use case for such a "delayed deployment"
 pattern. Many more are certainly possible.
 
-## `assembly-line` (a.k.a. `sequencer`)
+## [`assembly-line`][assembly-line] (a.k.a. `sequencer`)
+
+[assembly-line]: assembly-line
 
 TODO: not implemented yet!
 
@@ -172,7 +180,9 @@ TODO: not implemented yet!
 
 `+` may be useful for one-shot "transactional" contracts
 
-## `garden` (and `seed`)
+## [`garden`][garden] (and `seed`)
+
+[garden]: garden
 
 TODO: not implemented yet!
 
@@ -181,6 +191,7 @@ TODO: not implemented yet!
 * runs its code to deploy a yet another external contract
 
 `+` pass entire storage as "call data" (2^256 2^256 bit chunks transferred for about 1000 gas? wow, that's fast!..)
+
 `+` may be useful for "interruptable" contracts
 
 `-` storage operations in general are expensive
