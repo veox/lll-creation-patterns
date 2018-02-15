@@ -30,8 +30,6 @@ def test_cannery(chain):
     txhash = chain.web3.eth.sendTransaction(transaction)
     txreceipt = chain.wait.for_receipt(txhash)
 
-    # print_memdump(chain, txreceipt) # DEBUG (uncomment here and in contract!)
-
     # DEBUG
     print('transaction:', transaction)
     print(txhash)
@@ -64,16 +62,28 @@ def test_cannery(chain):
         'to':   canaddr,
         'gas': 100000, # TODO: this seems not to be used?.. :/
     }
+    # FIXME: .raises() required due to exceptional termination
     with pytest.raises(TransactionFailed):
         txhash = chain.web3.eth.sendTransaction(transaction)
     txreceipt = chain.wait.for_receipt(txhash)
     # FIXME: Populus uses an ancient version of `pyethereum`; looks like
-    # it doesn't know of REVERT and its reduced gas use
+    # it doesn't know of REVERT, so terminates as if INVALID was called
     #assert txreceipt['gasUsed'] < 21100
 
     # DEBUG
     print('transaction:', transaction)
     print(txhash)
     print(txreceipt)
-    
+    print('-'*72)
+
+    txhash = opener.transact().open(canaddr)
+    txreceipt = chain.wait.for_receipt(txhash)
+
+    # print_memdump(chain, txreceipt) # DEBUG (uncomment here and in contract!)
+
+    # DEBUG
+    print(txhash)
+    print(txreceipt)
+    print('-'*72)
+
     assert False
