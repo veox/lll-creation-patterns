@@ -51,9 +51,14 @@ runtime bytecode as a new contract.
 
 **More upsides:**
 
-No runtime? _Don't care._ Runtime makes no sense without the init code?
-_Don't care._ Even if that makes it insecure? _Don't care._ Runtime
-makes no sense without the storage it was handling? _Don't care._
+No runtime? _Don't care._
+
+Runtime doesn't work without the init code? _Don't care._
+
+Even if that makes it insecure? _Don't care._
+
+Runtime makes no sense without the storage it was handling? _Don't
+care._
 
 **Downside:** needs additional steps if created contract needs
 customisation (such as access controls), which likely requires
