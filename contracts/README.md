@@ -3,23 +3,24 @@
 ## Introduction
 
 Deploying contracts on Ethereum networks is difficult, at least
-comparing to interacting with already-deployed contracts.
+compared to interacting with already-deployed contracts.
 
-Arguably, it requires an understanding of the underlying virtual
-machine, and developer scaffolding around it, that normal people can't
-afford, in terms of the most universal commodity: time.
+Arguably, it requires an understanding of the employed virtual machine,
+and developer scaffolding around it, that normal people can't afford in
+terms of the most universal commodity: time.
 
 For this reason, some Ethereum clients have attempted to ship popular
 contracts, such as multisig wallets, together with the client itself.
 This limits such contracts to a certain client implementation, locks
-the contract's development to the client's development cycle, and
-inevitably passes judgement on what it is that is "popular".
+the contract's development cycle to that of the client, and inevitably
+passes judgement on what it is that is "popular".
 
 > This is unacceptable!
 
 Below find approaches to deploying contracts using other contracts;
 and _wholly experimental_ implementations of these approaches in LLL.
-The latter was chosen for its atavistic outlook on the EVM.
+The latter was chosen for its atavistic outlook on the EVM, and what
+it is that is "allowed", or "possible".
 
 > No gods! No masters! No babysitters!
 
