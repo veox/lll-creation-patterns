@@ -23,7 +23,7 @@
   ;; CODECOPY           ; 0x39      ; copy to memory...
   ;; PUSH1 0x00         ; 0x60 0x00
   ;; RETURN             ; 0xf3      ; ...and return it: set contract's code
-  ;; STOP               ; 0x00
+  ;; STOP               ; 0x00      ; TODO: redundant, remove?..
   ;; ----------------------------------------------------------------------
   ;; wrapper_size == 14 == 0x0e
   (def '*wrapper* 0x600e380380600e6000396000f300)
