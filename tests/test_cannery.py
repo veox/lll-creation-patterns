@@ -45,8 +45,8 @@ def open_canned_contract(chain, opener, canaddr, data=None):
         txhash = opener.transact().open(canaddr, data)
     txreceipt = chain.wait.for_receipt(txhash)
 
-    # DEBUG (uncomment here and in contract!)
-    _print_memdump(chain, txreceipt)
+    # # DEBUG (uncomment here and in contract!)
+    # _print_memdump(chain, txreceipt)
 
     # get uncanned contract's address from log
     openedaddr = chain.web3.toChecksumAddress(_get_log_data(txreceipt))
@@ -133,4 +133,4 @@ def test_can_opener_with_data(chain):
     # try calling it (using "fake" function, since Populus no-know "fallbacks")
     retval = veg2.call().fake()
     # 
-    assert chain.web3.toHex(retval) == chain.web3.toHex(somedata)
+    assert retval == somedata

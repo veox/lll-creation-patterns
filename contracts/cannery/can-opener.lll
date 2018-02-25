@@ -74,7 +74,7 @@
      ;; must have determined source address by now; and won't clone precompiles
      (when (<= (mload *memloc-can-addr*) *max-precomp-addr*) (revert 0 0))
 
-     ;; get source's code size (including the first REVERT byte)
+     ;; get source's code size (including the REVERT guard)
      (mstore *memloc-can-size* (extcodesize (mload *memloc-can-addr*)))
      ;; it must be non-zero
      (when (= 0 (mload *memloc-can-size*)) (revert 0 0))
@@ -99,12 +99,6 @@
         *cdloc-data*                  ; where in call data to copy from
         (mload *memloc-data-size*)))  ; how much of call data to copy
 
-     ;; ;; DEBUG: copy all code data to memory
-     ;; (calldatacopy 0x00 0x04 (calldatasize))
-     ;; DEBUG: uncomment to view memory during execution
-     (log1 0x00 0x200 (- 0 1))
-     (return 0 0)
-
      ;; CREATE new contract from memory, saving the destination's address
      ;; NOTE: *memloc-data-size* should contain 0 if `open(address)` was used
      (mstore
@@ -116,6 +110,12 @@
                (+ (mload *memloc-can-size*)   ; (do copy the can's code...)
                   (mload *memloc-data-size*)) ; (and data, if any was provided)
                *revert-guard-size*)))         ; how much to copy
+
+     ;; ;; DEBUG: copy call data (sans function selector) to memory
+     ;; (calldatacopy 0x00 0x04 (calldatasize))
+     ;; ;; DEBUG: uncomment to view memory during execution
+     ;; (log1 0x00 0x300 (- 0 1))
+     ;; (return 0 0)
 
      ;; destination address must be non-zero (i.e. CREATE succeeded)
      (when (= 0 (mload *memloc-veg-addr*)) (revert 0 0))
