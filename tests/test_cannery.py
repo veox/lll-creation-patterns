@@ -115,7 +115,7 @@ def test_can_opener_without_data(chain):
 
 def test_can_opener_with_data(chain):
     # will use this "fingerprint"
-    somedata = chain.web3.toBytes(0xfacade)
+    somebytes = chain.web3.toBytes(0xfacade)
 
     # deploy cannery and canned vegetable
     cannery, canaddr = deploy_cannery_and_can(chain)
@@ -124,7 +124,7 @@ def test_can_opener_with_data(chain):
 
     # try opening the can
     Vegetable = chain.provider.get_contract_factory('vegetable')
-    veg2addr = open_canned_contract(chain, opener, canaddr, data=somedata)
+    veg2addr = open_canned_contract(chain, opener, canaddr, data=somebytes)
     veg2 = Vegetable(address=veg2addr)
 
     # uncanned vegetable's runtime bytecode matches that of never-canned
@@ -132,5 +132,6 @@ def test_can_opener_with_data(chain):
 
     # try calling it (using "fake" function, since Populus no-know "fallbacks")
     retval = veg2.call().fake()
-    # 
-    assert retval == somedata
+    retval = retval.encode('latin-1') # UGLY: Populus/web3 quirk
+    # is 0xfacade0000000000000000000000000000000000000000000000000000000000
+    assert retval.startswith(somebytes)
