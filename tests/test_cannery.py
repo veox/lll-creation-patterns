@@ -37,6 +37,20 @@ def can_contract(chain, cannery, contractname):
 
     return canaddr
 
+def open_canned_contract(chain, opener, canaddr):
+    # open the canned vegetable using the can-opener
+    txhash = opener.transact().open(canaddr)
+    txreceipt = chain.wait.for_receipt(txhash)
+
+    # DEBUG (uncomment here and in contract!)
+    # print_memdump(chain, txreceipt)
+
+    # get uncanned contract's address from log
+    openedaddr = chain.web3.toChecksumAddress(get_log_data(txreceipt))
+    assert openedaddr != '0x0000000000000000000000000000000000000000'
+
+    return openedaddr
+
 ########################################################################
 
 def test_cannery(chain):
@@ -59,7 +73,7 @@ def test_cannery(chain):
     # there is nothing else but the can and its contents
     assert canbytecode == revertguard + Vegetable.bytecode[2:]
 
-    # attempt to call can directly (should REVERT with very low gas use)
+    # attempt calling can directly (should REVERT with very low gas use)
     transaction = {
         'from': chain.web3.eth.coinbase,
         'to':   canaddr,
@@ -73,30 +87,21 @@ def test_cannery(chain):
         # looks like it doesn't know of REVERT, so terminates as if INVALID was called
         #assert txreceipt['gasUsed'] < 21100
 
-    # open the canned vegetable using the can-opener
-    txhash = opener.transact().open(canaddr)
-    txreceipt = chain.wait.for_receipt(txhash)
+    # ================================================================
 
-    # DEBUG (uncomment here and in contract!)
-    # print_memdump(chain, txreceipt)
-
-    # get uncanned contract's address from log
-    myveggieaddr = chain.web3.toChecksumAddress(get_log_data(txreceipt))
-    assert myveggieaddr != '0x0000000000000000000000000000000000000000'
-
-    # see what's in the veggie (cheat!)
-    myveggiebytecode = chain.web3.eth.getCode(myveggieaddr)
-    # uncanned vegetable's runtime bytecode matches that of never-canned
-    assert myveggiebytecode == Vegetable.bytecode_runtime
-
+    myveggieaddr = open_canned_contract(chain, opener, canaddr)
     myveggie = Vegetable(address=myveggieaddr)
 
-    # try calling it
+    # uncanned vegetable's runtime bytecode matches that of never-canned
+    assert chain.web3.eth.getCode(myveggieaddr) == Vegetable.bytecode_runtime
+
+    # try calling it (using "fake" function, since Populus no-know "fallbacks")
     retval = myveggie.call().fake()
+    # is 0x0000000000000000000000000000000000000000000000000000000000000000
+    assert chain.web3.toHex(retval) == '0x'+'0'*64
 
-    # DEBUG
-    print('retval:', chain.web3.toHex(retval))
+    # ================================================================
 
-    assert False
-
-    # TODO: test opening can with data!
+    # open the can again, this time providing data
+    txhash = opener.transact().open(canaddr, '0xfacade')
+    txreceipt = chain.wait.for_receipt(txhash)
