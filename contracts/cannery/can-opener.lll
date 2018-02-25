@@ -24,8 +24,9 @@
 
   (def '*cdloc-function-selector* 0x00)
   (def '*cdloc-can-addr*          0x04)
-  (def '*cdloc-data-size*         0x24) ; FIXME: missing *cdloc-data-loc*?..
-  (def '*cdloc-data*              0x44)
+  (def '*cdloc-data-loc*          0x24)
+  (def '*cdloc-data-size*         0x44)
+  (def '*cdloc-data*              0x64)
 
   ;; ==========================================================================
   ;; CONSTANTS
@@ -60,23 +61,18 @@
          ;; load address as-is (assume web3-compliant call data)
          (mstore *memloc-can-addr* (calldataload *cdloc-can-addr*))))
 
-     ;; or 4+(32*N) bytes (where N > 1)
-     (when (>= (calldatasize) 68)
+     ;; or 4+32+64+DATALEN bytes
+     (when (>= (calldatasize) 100)
        (seq
          ;; check for matching web3 function selector
          (unless (= *open-with-data* (mload *memloc-function-selector*)) (revert 0 0))
-         ;; save data size for later
-         (mstore *memloc-data-size* (calldataload *cdloc-data-size*))
-         ;; check call data length validity
-         (unless (= (calldatasize) (+ 68 (mload *cdloc-data-size*))) (revert 0 0))
          ;; load address as-is (assume web3-compliant call data)
          (mstore *memloc-can-addr* (calldataload *cdloc-can-addr*))))
+         ;; save data size for later
+         (mstore *memloc-data-size* (calldataload *cdloc-data-size*))
 
      ;; must have determined source address by now; and won't clone precompiles
      (when (<= (mload *memloc-can-addr*) *max-precomp-addr*) (revert 0 0))
-
-     ;; DEBUG: uncomment to view memory during execution
-     ;; (log1 0x00 0x200 (- 0 1))
 
      ;; get source's code size (including the first REVERT byte)
      (mstore *memloc-can-size* (extcodesize (mload *memloc-can-addr*)))
@@ -102,6 +98,12 @@
            (mload *memloc-can-size*)) ; where in memory to copy to
         *cdloc-data*                  ; where in call data to copy from
         (mload *memloc-data-size*)))  ; how much of call data to copy
+
+     ;; ;; DEBUG: copy all code data to memory
+     ;; (calldatacopy 0x00 0x04 (calldatasize))
+     ;; DEBUG: uncomment to view memory during execution
+     (log1 0x00 0x200 (- 0 1))
+     (return 0 0)
 
      ;; CREATE new contract from memory, saving the destination's address
      ;; NOTE: *memloc-data-size* should contain 0 if `open(address)` was used

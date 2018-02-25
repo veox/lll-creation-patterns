@@ -46,7 +46,7 @@ def open_canned_contract(chain, opener, canaddr, data=None):
     txreceipt = chain.wait.for_receipt(txhash)
 
     # DEBUG (uncomment here and in contract!)
-    # _print_memdump(chain, txreceipt)
+    _print_memdump(chain, txreceipt)
 
     # get uncanned contract's address from log
     openedaddr = chain.web3.toChecksumAddress(_get_log_data(txreceipt))
@@ -114,8 +114,8 @@ def test_can_opener_without_data(chain):
     assert chain.web3.toHex(retval) == '0x'+'0'*64
 
 def test_can_opener_with_data(chain):
-    # will use this fingerprint
-    somedata = '0xfacade'
+    # will use this "fingerprint"
+    somedata = chain.web3.toBytes(0xfacade)
 
     # deploy cannery and canned vegetable
     cannery, canaddr = deploy_cannery_and_can(chain)
@@ -132,5 +132,5 @@ def test_can_opener_with_data(chain):
 
     # try calling it (using "fake" function, since Populus no-know "fallbacks")
     retval = veg2.call().fake()
-    # is 0x0000000000000000000000000000000000000000000000000000000000000000
-    assert chain.web3.toHex(retval) == somedata
+    # 
+    assert chain.web3.toHex(retval) == chain.web3.toHex(somedata)
