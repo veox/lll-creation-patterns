@@ -4,7 +4,7 @@ from ethereum.tester import TransactionFailed
 # bytecode of *revert-guard* in cannery/can-opener contracts
 revertguard = '0x600080fd' # PUSH1 0x00 DUP1 REVERT
 
-def print_memdump(chain, txreceipt):
+def _print_memdump(chain, txreceipt):
     '''Hacky helper for memory inspection.'''
     print('-'*33 + 'MEMDMP' + '-'*33)
     data = txreceipt['logs'][0]['data']
@@ -16,7 +16,7 @@ def print_memdump(chain, txreceipt):
     # also, forces the dump to be displayed
     assert False
 
-def get_log_data(txreceipt, logindex=0):
+def _get_log_data(txreceipt, logindex=0):
     '''Extract ``data`` from log entry in the transaction receipt.'''
     assert len(txreceipt['logs']) != 0
     return txreceipt['logs'][logindex]['data']
@@ -32,7 +32,7 @@ def can_contract(chain, cannery, contractname):
     txreceipt = chain.wait.for_receipt(txhash)
 
     # get can's address from log
-    canaddr = chain.web3.toChecksumAddress(get_log_data(txreceipt))
+    canaddr = chain.web3.toChecksumAddress(_get_log_data(txreceipt))
     assert canaddr != '0x0000000000000000000000000000000000000000'
 
     return canaddr
@@ -46,20 +46,17 @@ def open_canned_contract(chain, opener, canaddr, data=None):
     txreceipt = chain.wait.for_receipt(txhash)
 
     # DEBUG (uncomment here and in contract!)
-    # print_memdump(chain, txreceipt)
+    # _print_memdump(chain, txreceipt)
 
     # get uncanned contract's address from log
-    openedaddr = chain.web3.toChecksumAddress(get_log_data(txreceipt))
+    openedaddr = chain.web3.toChecksumAddress(_get_log_data(txreceipt))
     assert openedaddr != '0x0000000000000000000000000000000000000000'
 
     return openedaddr
 
-########################################################################
-
-def test_cannery(chain):
-    # deploy cannery and can opener
+def deploy_cannery_and_can(chain):
+    # deploy cannery
     cannery, _ = chain.provider.get_or_deploy_contract('cannery')
-    opener, _ = chain.provider.get_or_deploy_contract('can-opener')
 
     # construct a transaction that has a veggie's deployment code,
     # but send it to the cannery instead of a direct CREATE
@@ -90,8 +87,21 @@ def test_cannery(chain):
         # looks like it doesn't know of REVERT, so terminates as if INVALID was called
         #assert txreceipt['gasUsed'] < 21100
 
-    # ================================================================
+    return (cannery, canaddr)
 
+########################################################################
+
+def test_cannery(chain):
+    deploy_cannery_and_can(chain)
+
+def test_can_opener_without_data(chain):
+    # deploy cannery and canned vegetable
+    cannery, canaddr = deploy_cannery_and_can(chain)
+    # deploy can opener
+    opener, _ = chain.provider.get_or_deploy_contract('can-opener')
+
+    # try opening the can
+    Vegetable = chain.provider.get_contract_factory('vegetable')
     veg1addr = open_canned_contract(chain, opener, canaddr)
     veg1 = Vegetable(address=veg1addr)
 
@@ -103,11 +113,17 @@ def test_cannery(chain):
     # is 0x0000000000000000000000000000000000000000000000000000000000000000
     assert chain.web3.toHex(retval) == '0x'+'0'*64
 
-    # ================================================================
-
+def test_can_opener_with_data(chain):
+    # will use this fingerprint
     somedata = '0xfacade'
 
-    # open the can again, this time providing data
+    # deploy cannery and canned vegetable
+    cannery, canaddr = deploy_cannery_and_can(chain)
+    # deploy can opener
+    opener, _ = chain.provider.get_or_deploy_contract('can-opener')
+
+    # try opening the can
+    Vegetable = chain.provider.get_contract_factory('vegetable')
     veg2addr = open_canned_contract(chain, opener, canaddr, data=somedata)
     veg2 = Vegetable(address=veg2addr)
 

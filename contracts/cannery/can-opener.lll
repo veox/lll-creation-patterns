@@ -13,10 +13,10 @@
   ;; ==========================================================================
   ;; MEMORY LAYOUT
 
-  (def '*memloc-veg-addr* 0x100)   ; store created contract's address here
+  (def '*memloc-veg-addr*  0x100)  ; store created contract's address here
   (def '*memloc-can-addr*  0x120)  ; will copy runtime bytecode from here
   (def '*memloc-can-size*  0x140)  ; size of runtime bytecode
-  (def '*memloc-data-size*  0x160) ; size of data to pass on (0 if none)
+  (def '*memloc-data-size* 0x160)  ; size of data to pass on (0 if none)
   (def '*memloc-can-code*  0x180)  ; where the to-clone code will _start_
 
   ;; ==========================================================================
@@ -76,7 +76,7 @@
      (when (<= (mload *memloc-can-addr*) *max-precomp-addr*) (revert 0 0))
 
      ;; DEBUG: uncomment to view memory during execution
-     ;; (log1 0x00 0x200 0x0101010101010101010101010101010101010101010101010101010101010101)
+     ;; (log1 0x00 0x200 (- 0 1))
 
      ;; get source's code size (including the first REVERT byte)
      (mstore *memloc-can-size* (extcodesize (mload *memloc-can-addr*)))
