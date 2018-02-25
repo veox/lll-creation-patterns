@@ -37,9 +37,12 @@ def can_contract(chain, cannery, contractname):
 
     return canaddr
 
-def open_canned_contract(chain, opener, canaddr):
+def open_canned_contract(chain, opener, canaddr, data=None):
     # open the canned vegetable using the can-opener
-    txhash = opener.transact().open(canaddr)
+    if data is None:
+        txhash = opener.transact().open(canaddr)
+    else:
+        txhash = opener.transact().open(canaddr, data)
     txreceipt = chain.wait.for_receipt(txhash)
 
     # DEBUG (uncomment here and in contract!)
@@ -89,19 +92,29 @@ def test_cannery(chain):
 
     # ================================================================
 
-    myveggieaddr = open_canned_contract(chain, opener, canaddr)
-    myveggie = Vegetable(address=myveggieaddr)
+    veg1addr = open_canned_contract(chain, opener, canaddr)
+    veg1 = Vegetable(address=veg1addr)
 
     # uncanned vegetable's runtime bytecode matches that of never-canned
-    assert chain.web3.eth.getCode(myveggieaddr) == Vegetable.bytecode_runtime
+    assert chain.web3.eth.getCode(veg1addr) == Vegetable.bytecode_runtime
 
     # try calling it (using "fake" function, since Populus no-know "fallbacks")
-    retval = myveggie.call().fake()
+    retval = veg1.call().fake()
     # is 0x0000000000000000000000000000000000000000000000000000000000000000
     assert chain.web3.toHex(retval) == '0x'+'0'*64
 
     # ================================================================
 
+    somedata = '0xfacade'
+
     # open the can again, this time providing data
-    txhash = opener.transact().open(canaddr, '0xfacade')
-    txreceipt = chain.wait.for_receipt(txhash)
+    veg2addr = open_canned_contract(chain, opener, canaddr, data=somedata)
+    veg2 = Vegetable(address=veg2addr)
+
+    # uncanned vegetable's runtime bytecode matches that of never-canned
+    assert chain.web3.eth.getCode(veg2addr) == Vegetable.bytecode_runtime
+
+    # try calling it (using "fake" function, since Populus no-know "fallbacks")
+    retval = veg2.call().fake()
+    # is 0x0000000000000000000000000000000000000000000000000000000000000000
+    assert chain.web3.toHex(retval) == somedata
