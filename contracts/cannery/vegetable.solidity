@@ -2,4 +2,6 @@ pragma solidity ^0.4.19;
 
 interface vegetable {
     function () public;
+    // TODO: remove this "fake" when Populus supports calling the "fallback"
+    function fake() public view returns(bytes32 _data);
 }

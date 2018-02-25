@@ -46,7 +46,7 @@ def test_cannery(chain):
 
     # see what's in the can (cheat!)
     canbytecode = chain.web3.eth.getCode(canaddr)
-    # "normal" runtime bytecode is in the can
+    # "normal" runtime bytecode is in the can (remove leading '0x's)
     assert bytecode[2:] in canbytecode[2:]
     # the can has a revert guard
     assert canbytecode.startswith(revertguard)
@@ -83,13 +83,14 @@ def test_cannery(chain):
     # uncanned vegetable's runtime bytecode matches that of never-canned
     assert myveggiebytecode == Vegetable.bytecode_runtime
 
+    myveggie = Vegetable(address=myveggieaddr)
+
     # try calling it
-    transaction = {
-        'from': chain.web3.eth.coinbase,
-        'to':   myveggieaddr,
-    }
-    txhash = chain.web3.eth.sendTransaction(transaction)
-    txreceipt = chain.wait.for_receipt(txhash)
-    # TODO: check what the fallback returned when Populus supports it
+    retval = myveggie.call().fake()
+
+    # DEBUG
+    print('retval:', chain.web3.toHex(retval))
+
+    assert False
 
     # TODO: test opening can with data!

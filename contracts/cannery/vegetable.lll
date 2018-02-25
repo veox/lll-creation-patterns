@@ -19,9 +19,9 @@
   ;; ==========================================================================
   ;; INIT
 
-  ;; save last 32 bytes of calldata to storage
-  (when (>= (calldatasize) 32)
-    (sstore *storloc* (calldataload (- (calldatasize) 32))))
+  ;; save 32 bytes past compile-time bytecode size of running code to storage
+  (codecopy *memloc* (bytecodesize) 32)
+  (sstore *storloc* *memloc*)
 
   ;; ==========================================================================
   ;; CODE

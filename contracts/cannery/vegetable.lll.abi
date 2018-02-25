@@ -1,1 +1,1 @@
-[{"payable":false,"stateMutability":"nonpayable","type":"fallback"}]
+[{"constant":true,"inputs":[],"name":"fake","outputs":[{"name":"_data","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"payable":false,"stateMutability":"nonpayable","type":"fallback"}]
