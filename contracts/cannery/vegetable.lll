@@ -1,15 +1,27 @@
 ;;;; ==========================================================================
 ;;;; @title Vegetable
-;;;; @notice Dummy contract to demostrate canning/uncanning. Returns 42.
+;;;; @notice Dummy contract to demostrate canning/uncanning.
 ;;;; @author Noel Maersk <veox>
 
 (seq
   (include "../common.lll.inc")
 
   ;; ==========================================================================
+  ;; MEMORY LAYOUT
+
+  (def '*memloc* 0x0)
+
+  ;; ==========================================================================
+  ;; STORAGE LAYOUT
+
+  (def '*storloc* 0x0)
+
+  ;; ==========================================================================
   ;; INIT
 
-  ; none!
+  ;; save last 32 bytes of calldata to storage
+  (when (>= (calldatasize) 32)
+    (sstore *storloc* (calldataload (- (calldatasize) 32))))
 
   ;; ==========================================================================
   ;; CODE
@@ -18,6 +30,5 @@
    (seq
      unpayable
 
-     (def '*memloc* 0x00)
-     (mstore *memloc* 42)
+     (mstore *memloc* (sload *storloc*))
      (return *memloc* 0x20))))
