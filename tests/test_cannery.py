@@ -21,6 +21,22 @@ def get_log_data(txreceipt, logindex=0):
     assert len(txreceipt['logs']) != 0
     return txreceipt['logs'][logindex]['data']
 
+def can_contract(chain, cannery, contractname):
+    factory = chain.provider.get_contract_factory(contractname)
+    transaction = {
+        'from': chain.web3.eth.coinbase,
+        'to':   cannery.address,
+        'data': factory.bytecode,
+    }
+    txhash = chain.web3.eth.sendTransaction(transaction)
+    txreceipt = chain.wait.for_receipt(txhash)
+
+    # get can's address from log
+    canaddr = chain.web3.toChecksumAddress(get_log_data(txreceipt))
+    assert canaddr != '0x0000000000000000000000000000000000000000'
+
+    return canaddr
+
 ########################################################################
 
 def test_cannery(chain):
@@ -31,27 +47,17 @@ def test_cannery(chain):
     # construct a transaction that has a veggie's deployment code,
     # but send it to the cannery instead of a direct CREATE
     Vegetable = chain.provider.get_contract_factory('vegetable')
-    bytecode = Vegetable.bytecode
-    transaction = {
-        'from': chain.web3.eth.coinbase,
-        'to':   cannery.address,
-        'data': bytecode,
-    }
-    txhash = chain.web3.eth.sendTransaction(transaction)
-    txreceipt = chain.wait.for_receipt(txhash)
 
-    # get can's address from log
-    canaddr = chain.web3.toChecksumAddress(get_log_data(txreceipt))
-    assert canaddr != '0x0000000000000000000000000000000000000000'
+    canaddr = can_contract(chain, cannery, 'vegetable')
 
     # see what's in the can (cheat!)
     canbytecode = chain.web3.eth.getCode(canaddr)
     # "normal" runtime bytecode is in the can (remove leading '0x's)
-    assert bytecode[2:] in canbytecode[2:]
+    assert Vegetable.bytecode[2:] in canbytecode[2:]
     # the can has a revert guard
     assert canbytecode.startswith(revertguard)
     # there is nothing else but the can and its contents
-    assert canbytecode == revertguard + bytecode[2:]
+    assert canbytecode == revertguard + Vegetable.bytecode[2:]
 
     # attempt to call can directly (should REVERT with very low gas use)
     transaction = {
@@ -62,10 +68,10 @@ def test_cannery(chain):
     # FIXME: .raises() required due to exceptional termination
     with pytest.raises(TransactionFailed):
         txhash = chain.web3.eth.sendTransaction(transaction)
-    txreceipt = chain.wait.for_receipt(txhash)
-    # FIXME: Populus uses an ancient version of `pyethereum` for testing?..
-    # looks like it doesn't know of REVERT, so terminates as if INVALID was called
-    #assert txreceipt['gasUsed'] < 21100
+        txreceipt = chain.wait.for_receipt(txhash)
+        # FIXME: Populus uses an ancient version of `pyethereum` for testing?..
+        # looks like it doesn't know of REVERT, so terminates as if INVALID was called
+        #assert txreceipt['gasUsed'] < 21100
 
     # open the canned vegetable using the can-opener
     txhash = opener.transact().open(canaddr)
