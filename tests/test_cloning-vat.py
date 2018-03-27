@@ -2,7 +2,9 @@
 
 def test_vat(chain):
     # deploy one cloning-vat by regular means
-    vat0, _ = chain.provider.get_or_deploy_contract('cloning-vat')
+    vat0, txhash = chain.provider.get_or_deploy_contract('cloning-vat')
+    txreceipt = chain.wait.for_receipt(txhash)
+
     vat0address = chain.web3.toChecksumAddress(vat0.address)
 
     # use the cloning-vat to clone a copy of itself

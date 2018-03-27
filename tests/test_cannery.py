@@ -56,7 +56,8 @@ def open_canned_contract(chain, opener, canaddr, data=None):
 
 def deploy_cannery_and_can(chain):
     # deploy cannery
-    cannery, _ = chain.provider.get_or_deploy_contract('cannery')
+    cannery, txhash = chain.provider.get_or_deploy_contract('cannery')
+    txreceipt = chain.wait.for_receipt(txhash)
 
     # construct a transaction that has a veggie's deployment code,
     # but send it to the cannery instead of a direct CREATE
@@ -97,8 +98,10 @@ def test_cannery(chain):
 def test_can_opener_without_data(chain):
     # deploy cannery and canned vegetable
     cannery, canaddr = deploy_cannery_and_can(chain)
+
     # deploy can opener
-    opener, _ = chain.provider.get_or_deploy_contract('can-opener')
+    opener, txhash = chain.provider.get_or_deploy_contract('can-opener')
+    txreceipt = chain.wait.for_receipt(txhash)
 
     # try opening the can
     Vegetable = chain.provider.get_contract_factory('vegetable')
