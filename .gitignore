@@ -74,6 +74,7 @@ genesis.json
 
 # pytest
 .cache/
+.pytest_cache/
 
 # virtualenv
 .virtualenv
