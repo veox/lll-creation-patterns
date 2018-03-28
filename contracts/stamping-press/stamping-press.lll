@@ -74,5 +74,9 @@
 
                         ;; fallback
                         (revert 0 0))))))
-                 ; event with one indexed chunk (address) and some data (address)
-                 (emit1 *event-stamped* (caller) (mload *memloc-new-contract-at*) 0x20))))))
+
+                 ;; event with one indexed chunk (address) and some data (address)
+                 (emit1 *event-stamped* (caller) (mload *memloc-new-contract-at*) 0x20)
+                 (return *memloc-new-contract-at* 0x20)))
+     ;;
+     (revert 0 0))))

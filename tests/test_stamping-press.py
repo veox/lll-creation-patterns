@@ -20,10 +20,19 @@ def create_greeter(chain, factory):
 def test_press_stamps_greeters(chain):
     sp, _ = chain.provider.get_or_deploy_contract('stamping-press')
 
+    # events emitted
     greeter0addr = create_greeter(chain, sp)
     greeter1addr = create_greeter(chain, sp)
 
     assert greeter0addr != greeter1addr
+
+    # addresses returned
+    greeter2addr = sp.transact().stamp()
+    greeter3addr = sp.transact().stamp()
+
+    assert greeter2addr != greeter3addr
+
+    return
 
 def test_stamped_greeter(chain):
     sp, _ = chain.provider.get_or_deploy_contract('stamping-press')
@@ -40,3 +49,5 @@ def test_stamped_greeter(chain):
 
     greeting = greeter.call().greet()
     assert greeting == 1337
+
+    return
