@@ -37,12 +37,13 @@ with any ether that might have been sent to it.
 
 ## `stamping-press` (with `collapser` as static payload)
 
-* Address: `0xb20ad6089B9BEDCF6dDaadc4D9A56AD86694359a`
+* Address: [`0xb20ad6089B9BEDCF6dDaadc4D9A56AD86694359a`][spc-es]
 * ENS: `stamping-press.veoxxoev.eth`
 * Source code: [`stamping-press-collapser.lll`][spc-src]
 * ABI: [`stamping-press-collapser.lll.abi`][spc-abi]
 * Solidity interface: [`stamping-press-collapser.solidity`][spc-sol]
 
+[spc-es]: https://etherscan.io/address/0xb20ad6089B9BEDCF6dDaadc4D9A56AD86694359a
 [spc-src]: https://gitlab.com/veox/lll-creation-patterns/blob/923e322130ff611ebd2bbd16320d96f2b466844b/contracts/stamping-press/stamping-press-collapser.lll
 [spc-abi]: https://gitlab.com/veox/lll-creation-patterns/blob/923e322130ff611ebd2bbd16320d96f2b466844b/contracts/stamping-press/stamping-press-collapser.lll.abi
 [spc-sol]: https://gitlab.com/veox/lll-creation-patterns/blob/923e322130ff611ebd2bbd16320d96f2b466844b/contracts/stamping-press/stamping-press-collapser.solidity
@@ -60,12 +61,13 @@ went.)
 
 ## `cloning-vat` 
 
-* Address: `0xC533fFbdcc952069f710dc3f6FA08510125Bcd49`
+* Address: [`0xC533fFbdcc952069f710dc3f6FA08510125Bcd49`][cv-es]
 * ENS: `cloning-vat.veoxxoev.eth`
 * Source code: [`cloning-vat.lll`][cv-src]
 * ABI: [`cloning-vat.lll.abi`][cv-abi]
 * Solidity interface: [`cloning-vat.solidity`][cv-sol]
 
+[cv-es]: https://etherscan.io/address/0xC533fFbdcc952069f710dc3f6FA08510125Bcd49
 [cv-src]: https://gitlab.com/veox/lll-creation-patterns/blob/923e322130ff611ebd2bbd16320d96f2b466844b/contracts/cloning-vat/cloning-vat.lll
 [cv-abi]: https://gitlab.com/veox/lll-creation-patterns/blob/923e322130ff611ebd2bbd16320d96f2b466844b/contracts/cloning-vat/cloning-vat.lll.abi
 [cv-sol]: https://gitlab.com/veox/lll-creation-patterns/blob/923e322130ff611ebd2bbd16320d96f2b466844b/contracts/cloning-vat/cloning-vat.solidity
@@ -91,12 +93,13 @@ a node, submitting the bytecode...
 
 ## `cannery`
 
-* Address: `0x25d62DA8E032c5cba01c351c7868f4b1a0E0949e`
+* Address: [`0x25d62DA8E032c5cba01c351c7868f4b1a0E0949e`][cannery-es]
 * ENS: `cannery.veoxxoev.eth`
 * Source code: [`cannery.lll`][cannery-src]
 * ABI: [`cannery.lll.abi`][cannery-abi]
 * Solidity interface: [`cannery.solidity`][cannery-sol]
 
+[cannery-es]: https://etherscan.io/address/0x25d62DA8E032c5cba01c351c7868f4b1a0E0949e
 [cannery-src]: https://gitlab.com/veox/lll-creation-patterns/blob/923e322130ff611ebd2bbd16320d96f2b466844b/contracts/cannery/cannery.lll
 [cannery-abi]: https://gitlab.com/veox/lll-creation-patterns/blob/923e322130ff611ebd2bbd16320d96f2b466844b/contracts/cannery/cannery.lll.abi
 [cannery-sol]: https://gitlab.com/veox/lll-creation-patterns/blob/923e322130ff611ebd2bbd16320d96f2b466844b/contracts/cannery/cannery.solidity
@@ -119,23 +122,25 @@ the [newly-created][tx9it] ("canned") contract's address.
 
 ## A canned `collapser`
 
-* Address: `0x1e77625c9818c25d4f4FA6b40D24Ef231D1740eF`
+* Address: [`0x1e77625c9818c25d4f4FA6b40D24Ef231D1740eF`][collapser-es]
 * ENS: `canned-collapser.veoxxoev.eth`
 * Source code: N/A
 * ABI: always REVERTs
 * Solidity interface: N/A
 
+[collapser-es]: https://etherscan.io/address/0x1e77625c9818c25d4f4FA6b40D24Ef231D1740eF
 The contract created by `cannery` above. Can't be called directly.
 
 
 ## `can-opener`
 
-* Address: `0xC9d28DcA3CD8cCFDF583643837E3C637Bc59A789`
+* Address: [`0xC9d28DcA3CD8cCFDF583643837E3C637Bc59A789`][co-es]
 * ENS: `can-opener.veoxxoev.eth`
 * Source code: [`can-opener.lll`][co-src]
 * ABI: [`can-opener.lll.abi`][co-abi]
 * Solidity interface: [`can-opener.solidity`][co-sol]
 
+[co-es]: https://etherscan.io/address/0xC9d28DcA3CD8cCFDF583643837E3C637Bc59A789
 [co-src]: https://gitlab.com/veox/lll-creation-patterns/blob/923e322130ff611ebd2bbd16320d96f2b466844b/contracts/cannery/can-opener.lll
 [co-abi]: https://gitlab.com/veox/lll-creation-patterns/blob/923e322130ff611ebd2bbd16320d96f2b466844b/contracts/cannery/can-opener.lll.abi
 [co-sol]: https://gitlab.com/veox/lll-creation-patterns/blob/923e322130ff611ebd2bbd16320d96f2b466844b/contracts/cannery/can-opener.solidity
