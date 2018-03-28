@@ -65,9 +65,9 @@ went.)
 * ABI: [`cloning-vat.lll.abi`][cv-abi]
 * Solidity interface: [`cloning-vat.solidity`][cv-sol]
 
-[cv-src]: https://gitlab.com/veox/lll-creation-patterns/blob/923e322130ff611ebd2bbd16320d96f2b466844b/contracts/stamping-press/cloning-vat.lll
-[cv-abi]: https://gitlab.com/veox/lll-creation-patterns/blob/923e322130ff611ebd2bbd16320d96f2b466844b/contracts/stamping-press/cloning-vat.lll.abi
-[cv-sol]: https://gitlab.com/veox/lll-creation-patterns/blob/923e322130ff611ebd2bbd16320d96f2b466844b/contracts/stamping-press/cloning-vat.solidity
+[cv-src]: https://gitlab.com/veox/lll-creation-patterns/blob/923e322130ff611ebd2bbd16320d96f2b466844b/contracts/cloning-vat/cloning-vat.lll
+[cv-abi]: https://gitlab.com/veox/lll-creation-patterns/blob/923e322130ff611ebd2bbd16320d96f2b466844b/contracts/cloning-vat/cloning-vat.lll.abi
+[cv-sol]: https://gitlab.com/veox/lll-creation-patterns/blob/923e322130ff611ebd2bbd16320d96f2b466844b/contracts/cloning-vat/cloning-vat.solidity
 
 Having deployed a `collapser` as shown above, one can use the
 `cloning-vat` to make an exact copy of it:
@@ -92,9 +92,13 @@ a node, submitting the bytecode...
 
 * Address: `0x25d62DA8E032c5cba01c351c7868f4b1a0E0949e`
 * ENS: `cannery.veoxxoev.eth`
-* Source code: [../contracts/cannery.lll]
-* ABI: [../contracts/cannery.lll.abi]
-* Solidity interface: [../contracts/cannery.solidity]
+* Source code: [`cannery.lll`][cannery-src]
+* ABI: [`cannery.lll.abi`][cannery-abi]
+* Solidity interface: [`cannery.solidity`][cannery-sol]
+
+[cannery-src]: https://gitlab.com/veox/lll-creation-patterns/blob/923e322130ff611ebd2bbd16320d96f2b466844b/contracts/cannery/cannery.lll
+[cannery-abi]: https://gitlab.com/veox/lll-creation-patterns/blob/923e322130ff611ebd2bbd16320d96f2b466844b/contracts/cannery/cannery.lll.abi
+[cannery-sol]: https://gitlab.com/veox/lll-creation-patterns/blob/923e322130ff611ebd2bbd16320d96f2b466844b/contracts/cannery/cannery.solidity
 
 TODO
 
@@ -114,8 +118,12 @@ The contract created by `cannery` above.
 
 * Address: `0xC9d28DcA3CD8cCFDF583643837E3C637Bc59A789`
 * ENS: `can-opener.veoxxoev.eth`
-* Source code: [../contracts/can-opener.lll]
-* ABI: [../contracts/can-opener.lll.abi]
-* Solidity interface: [../contracts/can-opener.solidity]
+* Source code: [`can-opener.lll`][co-src]
+* ABI: [`can-opener.lll.abi`][co-abi]
+* Solidity interface: [`can-opener.solidity`][co-sol]
+
+[co-src]: https://gitlab.com/veox/lll-creation-patterns/blob/923e322130ff611ebd2bbd16320d96f2b466844b/contracts/cannery/can-opener.lll
+[co-abi]: https://gitlab.com/veox/lll-creation-patterns/blob/923e322130ff611ebd2bbd16320d96f2b466844b/contracts/cannery/can-opener.lll.abi
+[co-sol]: https://gitlab.com/veox/lll-creation-patterns/blob/923e322130ff611ebd2bbd16320d96f2b466844b/contracts/cannery/can-opener.solidity
 
 TODO
