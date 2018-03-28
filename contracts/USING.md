@@ -7,9 +7,10 @@ useful, see [the `contracts` `README`][contracts-readme].
 
 [contracts-readme]: ../contracts/README.md
 
-The contracts described below have been deployed to the same address on
-ETH-mainnet/Ropsten/Rinkeby/Kovan, and have this address registered on
-mainnet ENS as `<contract-name>.veoxxoev.eth` for easy look-up.
+The contracts described below have been deployed to the same addresses
+across multiple chains (ETH-mainnet/Ropsten/Rinkeby/Kovan), and have
+these addresses registered on mainnet ENS as
+`<contract-name>.veoxxoev.eth` for convenience.
 
 The [`furiate`][furiate] script was used to do this; transaction data
 can be seen [here][schedule].
@@ -27,7 +28,7 @@ compile the contracts.
 
 [collapser-src]: https://gitlab.com/veox/lll-contracts/blob/c419bd68c2c15115c50ccd28d9d9163117658505/contracts/collapser.lll
 
-This "contract" is used throught the examples below; it's actually just
+This "contract" is used throughout the examples below; it's actually just
 two instructions at runtime: `ADDRESS SELFDESTRUCT`, or two bytes: `0x30ff`.
 
 On any call, such a contract will remove itself from the state, together
