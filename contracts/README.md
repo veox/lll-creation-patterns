@@ -34,6 +34,8 @@ The tests are in [`../tests/`][tests].
 The [`furiate` script][furiate] has been used to deploy the contracts
 to multiple Ethereum networks with the same address.
 
+The addresses are also registered on mainnet ENS.
+
 [furiate]: https://gitlab.com/veox/furiate
 
 The networks are: ETH mainnet, Ropsten, Rinkeby, Kovan.
@@ -46,8 +48,9 @@ the contracts.
 
 [stamping-press]: stamping-press
 
-**Deployed** on all networks as `0xE725E70c7A00fF3Fb32B6C01Cce44600710d673e`,
-with a [`collapser`][collapser] payload for demonstration purposes.
+**Deployed** on all networks as `0xE725E70c7A00fF3Fb32B6C01Cce44600710d673e`
+(ENS: `stamping-press.veoxxoev.eth`), with a [`collapser`][collapser]
+payload for demonstration purposes.
 
 [collapser]: https://gitlab.com/veox/lll-contracts/blob/c419bd68c2c15115c50ccd28d9d9163117658505/contracts/collapser.lll
 
@@ -97,7 +100,8 @@ the same contract!
 
 [cloning-vat]: cloning-vat
 
-**Deployed** on all networks as `0xC533fFbdcc952069f710dc3f6FA08510125Bcd49`.
+**Deployed** on all networks as `0xC533fFbdcc952069f710dc3f6FA08510125Bcd49`
+(ENS: `cloning-vat.veoxxoev.eth`).
 
 **Compiled** without optimisations.
 
@@ -144,9 +148,12 @@ a `stamping-press` as input, or any other factory for that matter.
 
 **Deployed** on all networks as:
 
-* `cannery`: `0x25d62DA8E032c5cba01c351c7868f4b1a0E0949e`,
-* `can-opener`: `0xC9d28DcA3CD8cCFDF583643837E3C637Bc59A789`,
-* `collapser` (canned): `0x1e77625c9818c25d4f4FA6b40D24Ef231D1740eF`.
+* `cannery`: `0x25d62DA8E032c5cba01c351c7868f4b1a0E0949e`
+  (ENS: `cannery.veoxxoev.eth`),
+* `can-opener`: `0xC9d28DcA3CD8cCFDF583643837E3C637Bc59A789`
+  (ENS: `can-opener.veoxxoev.eth`),
+* `collapser` (canned): `0x1e77625c9818c25d4f4FA6b40D24Ef231D1740eF`
+  (ENS: `canned-collapser.veoxxoev.eth`).
 
 **Compiled** with optimisations.
 
