@@ -101,7 +101,20 @@ a node, submitting the bytecode...
 [cannery-abi]: https://gitlab.com/veox/lll-creation-patterns/blob/923e322130ff611ebd2bbd16320d96f2b466844b/contracts/cannery/cannery.lll.abi
 [cannery-sol]: https://gitlab.com/veox/lll-creation-patterns/blob/923e322130ff611ebd2bbd16320d96f2b466844b/contracts/cannery/cannery.solidity
 
-TODO
+Say you wanted to avoid deploying a new `stamping-press` every time you changed
+its payload; or wanted to run a payload that has initialisation code (called a
+constructor in Solidity) - which `cloning-vat` can't run, since it's only
+available during deployment.
+
+Instead of publishing a contract directly to a chain, one can [send][tx9]
+_the same deployment bytecode_ as produced by the compiler (without
+constructor arguments) to the `cannery`, as part of the transaction data.
+
+Just as the other two above, the `cannery` will emit an event and return
+the [newly-created][tx9it] ("canned") contract's address.
+
+[tx9]: https://etherscan.io/tx/0x3b8a7a98a01a59ae9d000a1e47cc455c964a776320565c4d67391871b4f4661f
+[tx9it]: https://etherscan.io/tx/0x3b8a7a98a01a59ae9d000a1e47cc455c964a776320565c4d67391871b4f4661f#internal
 
 
 ## A canned `collapser`
@@ -112,7 +125,7 @@ TODO
 * ABI: always REVERTs
 * Solidity interface: N/A
 
-The contract created by `cannery` above.
+The contract created by `cannery` above. Can't be called directly.
 
 
 ## `can-opener`
@@ -127,4 +140,18 @@ The contract created by `cannery` above.
 [co-abi]: https://gitlab.com/veox/lll-creation-patterns/blob/923e322130ff611ebd2bbd16320d96f2b466844b/contracts/cannery/can-opener.lll.abi
 [co-sol]: https://gitlab.com/veox/lll-creation-patterns/blob/923e322130ff611ebd2bbd16320d96f2b466844b/contracts/cannery/can-opener.solidity
 
-TODO
+This `can-opener` is complementary to the `cannery` above.
+
+Once you know a canned contract's address, to [deploy it "for
+real"][tx11], call the `can-opener`'s `open(address)` function.
+
+[tx11]: https://etherscan.io/tx/0xfe0c2e038cdc312217d61b4caf0736d76091fbae3d6ad58ea4376bffaa16c2cc
+
+(If the contract has Solidity-style constructor arguments, one can call
+`open(address,bytes)` instead. Obviously, the function selector changes.
+Also - this hasn't been tested (yet).)
+
+As you might've guessed, the `can-opener` emits an event and returns
+the [newly-deployed][tx11it] contract's address.
+
+[tx11it]: https://etherscan.io/tx/0xfe0c2e038cdc312217d61b4caf0736d76091fbae3d6ad58ea4376bffaa16c2cc#internal
