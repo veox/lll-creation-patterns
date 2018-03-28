@@ -4,7 +4,7 @@
         "inputs": [
             {
                 "name": "",
-                "type": "string"
+                "type": "uint256"
             }
         ],
         "name": "setGreeting",
