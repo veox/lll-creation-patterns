@@ -53,26 +53,10 @@
                      (sstore *storloc-greeting* *initial-greeting*)
 
                      (returnlll ; ...with the following code
-                      (seq
-                        unpayable
-                        mstore-function-selector
+                      (selfdestruct (address))))))
 
-                        ;; change greeting value in storage
-                        (def 'new-greeting (calldataload 0x04))
-                        (function *set-greeting*
-                                  (seq
-                                    (sstore *storloc-greeting* new-greeting)
-                                    (stop)))
-
-                        ;; return greeting value from storage
-                        (function *greet*
-                                  (return (sload *storloc-greeting*)))
-
-                        ;; for compatibility with Greeter.sol: "public storage variable"
-                        (function *greeting*
-                                  (return (sload *storloc-greeting*)))
-
-                        ;; fallback
-                        (revert 0 0))))))
-                 ; event with one indexed chunk (address) and some data (address)
-                 (emit1 *event-stamped* (caller) (mload *memloc-new-contract-at*) 0x20))))))
+                 ;; event with one indexed chunk (address) and some data (address)
+                 (emit1 *event-stamped* (caller) (mload *memloc-new-contract-at*) 0x20)
+                 (return *memloc-new-contract-at* 0x20)))
+     ;;
+     (revert 0 0))))

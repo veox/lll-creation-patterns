@@ -1,0 +1,35 @@
+[
+    {
+        "constant": false,
+        "inputs": [
+
+        ],
+        "name": "stamp",
+        "outputs": [
+            {
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "name": "_caller",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "name": "_product",
+                "type": "address"
+            }
+        ],
+        "name": "stamped",
+        "type": "event"
+    }
+]
