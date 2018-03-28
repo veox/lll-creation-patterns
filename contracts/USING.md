@@ -50,22 +50,42 @@ On any invocation of the `stamp()` function, this contract will deploy a
 new `collapser`. An event to that effect will be emitted, and the
 newly-created contract's address returned by the `stamping-press`.
 
-EtherScan will not display these, but you can look at the ["internal
+(EtherScan will not display these, but you can look at the ["internal
 transactions"][tx13it] tab to see the where your precious `collapser`
-went.
+went.)
 
-[tx13it]: https://etherscan.io/tx/0xb1c0f5aeb16c16276a8bc84686a53be2174a3eaabb2c0b4d2c99157e4f7424c9#internal
+[tx21it]: https://etherscan.io/tx/0xd3f3896f740332925372f29832337eada5604cf7c50c4b75d2656c03aa686aee#internal
 
 
 ## `cloning-vat` 
 
 * Address: `0xC533fFbdcc952069f710dc3f6FA08510125Bcd49`
 * ENS: `cloning-vat.veoxxoev.eth`
-* Source code: [../contracts/cloning-vat.lll]
-* ABI: [../contracts/cloning-vat.lll.abi]
-* Solidity interface: [../contracts/cloning-vat.solidity]
+* Source code: [`cloning-vat.lll`][cv-src]
+* ABI: [`cloning-vat.lll.abi`][cv-abi]
+* Solidity interface: [`cloning-vat.solidity`][cv-sol]
 
-TODO
+[cv-src]: https://gitlab.com/veox/lll-creation-patterns/blob/923e322130ff611ebd2bbd16320d96f2b466844b/contracts/stamping-press/cloning-vat.lll
+[cv-abi]: https://gitlab.com/veox/lll-creation-patterns/blob/923e322130ff611ebd2bbd16320d96f2b466844b/contracts/stamping-press/cloning-vat.lll.abi
+[cv-sol]: https://gitlab.com/veox/lll-creation-patterns/blob/923e322130ff611ebd2bbd16320d96f2b466844b/contracts/stamping-press/cloning-vat.solidity
+
+Having deployed a `collapser` as shown above, one can use the
+`cloning-vat` to make an exact copy of it:
+
+* either by calling the `clone(address)` function, supplying the
+  `collapser`'s address; or
+* calling the `cloning-vat` with just the address (20 bytes) provided,
+  as shown [in this transaction][tx4].
+
+[tx4]: https://etherscan.io/tx/0xd495220ffbe8ff84807d08bba1da095f9fb87a49487597f5e1f5dbb6813b5a73
+
+Just as `stamping-press` did, `cloning-vat` will emit an event, and return
+the newly-cloned contract's address.
+
+None of the above is particularly exciting (unless you enjoy whack-a-mole).
+However, if you followed the examples, it serves to demonstrate deploying some
+"standard contracts" without having to bother with compilation, connecting to
+a node, submitting the bytecode...
 
 
 ## `cannery`
