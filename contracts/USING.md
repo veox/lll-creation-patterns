@@ -15,7 +15,7 @@ The [`furiate`][furiate] script was used to do this; transaction data
 can be seen [here][schedule].
 
 [furiate]: https://gitlab.com/veox/furiate
-[schedule]: https://gitlab.com/veox/furiate/blob/5dd6b3b2c62141a19e30f501e833ee145bc3edf8/schedule.py
+[schedule]: https://gitlab.com/veox/furiate/blob/d9eb4d2d75f3601a081bf8f830fd4cd12f8177ce/schedule.py
 
 A locally-compiled `lllc` from `solidity` release v0.4.21 was used to
 compile the contracts.
