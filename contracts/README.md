@@ -24,16 +24,34 @@ it is that is "allowed", or "possible".
 
 > No gods! No masters! No babysitters!
 
-**NOTE:** Intentionally ironically, I have not deployed the
-implementations provided here to any public networks, yet.
-
 The tests are in [`../tests/`][tests].
 
 [tests]: ../tests
 
+
+## "Deployed on all networks"
+
+The [`furiate` script][furiate] has been used to deploy the contracts
+to multiple Ethereum networks with the same address.
+
+[furiate]: https://gitlab.com/veox/furiate
+
+The networks are: ETH mainnet, Ropsten, Rinkeby, Kovan.
+
+A locally-compiled `lllc` from `solidity` v0.4.21 was used to compile
+the contracts.
+
+
 ## [`stamping-press`][stamping-press] (and `cog`, a.k.a. `greeter`)
 
 [stamping-press]: stamping-press
+
+**Deployed** on all networks as `0xE725E70c7A00fF3Fb32B6C01Cce44600710d673e`,
+with a [`collapser`][collapser] payload for demonstration purposes.
+
+[collapser]: https://gitlab.com/veox/lll-contracts/blob/c419bd68c2c15115c50ccd28d9d9163117658505/contracts/collapser.lll
+
+**Compiled** with optimisations.
 
 The straightforward Factory. Used in Solidity programs with the `new`
 keyword.
@@ -79,6 +97,10 @@ the same contract!
 
 [cloning-vat]: cloning-vat
 
+**Deployed** on all networks as `0xC533fFbdcc952069f710dc3f6FA08510125Bcd49`.
+
+**Compiled** without optimisations.
+
 The honeybadger Factory.
 
 Takes an account address as input and creates a copy of that account's
@@ -119,6 +141,14 @@ a `stamping-press` as input, or any other factory for that matter.
 ## [`cannery`][cannery] (and complementary `can-opener`)
 
 [cannery]: cannery
+
+**Deployed** on all networks as:
+
+* `cannery`: `0x25d62DA8E032c5cba01c351c7868f4b1a0E0949e`,
+* `can-opener`: `0xC9d28DcA3CD8cCFDF583643837E3C637Bc59A789`,
+* `collapser` (canned): `0x1e77625c9818c25d4f4FA6b40D24Ef231D1740eF`.
+
+**Compiled** with optimisations.
 
 The one-size-fits-all Factory. Something similar [has been
 proposed][shared] as the `copyof` or `shared` keyword in Solidity.
@@ -168,6 +198,7 @@ in an external clearlist. It may combine both approaches as necessary.
 This is just one imaginary use case for such a "delayed deployment"
 pattern. Many more are certainly possible.
 
+
 ## [`assembly-line`][assembly-line] (a.k.a. `sequencer`)
 
 [assembly-line]: assembly-line
@@ -180,6 +211,7 @@ TODO: not implemented yet!
   according to the blueprint/sequence
 
 `+` may be useful for one-shot "transactional" contracts
+
 
 ## [`garden`][garden] (and `seed`)
 
