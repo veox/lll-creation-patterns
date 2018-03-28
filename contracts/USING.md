@@ -31,8 +31,10 @@ compile the contracts.
 This "contract" is used throughout the examples below; it's actually just
 two instructions at runtime: `ADDRESS SELFDESTRUCT`, or two bytes: `0x30ff`.
 
-On any call, such a contract will remove itself from the state, together
-with any ether that might have been sent to it.
+On any call, such a contract will [remove itself from the state][tx1it],
+together with any ether that might have been sent to it.
+
+[tx1it]: https://etherscan.io/tx/0xffa71a7485ffaae208860a15d0910fabec8fe9a40ee907665257bb57c7ab831b#internal
 
 
 ## `stamping-press` (with `collapser` as static payload)
