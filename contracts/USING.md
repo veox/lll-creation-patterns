@@ -8,7 +8,9 @@ useful, see [the `contracts` `README`][contracts-readme].
 [contracts-readme]: ../contracts/README.md
 
 The contracts described below have been deployed to the same addresses
-across multiple chains (ETH-mainnet/Ropsten/Rinkeby/Kovan).
+across multiple chains (ETH-mainnet/Ropsten/Rinkeby/Kovan). Although
+links in this article are to EtherScan's mainnet pages, any "major"
+public testnet can be used for experiments.
 
 The [`furiate`][furiate] script was used to do this; transaction data
 can be seen [here][schedule].
@@ -56,7 +58,7 @@ new `collapser`. An event to that effect will be emitted, and the
 newly-created contract's address returned by the `stamping-press`.
 
 (EtherScan will not display these, but you can look at the ["internal
-transactions"][tx21it] tab to see the where your precious `collapser`
+transactions"][tx21it] tab to see where your precious `collapser`
 went.)
 
 [tx21it]: https://etherscan.io/tx/0xd3f3896f740332925372f29832337eada5604cf7c50c4b75d2656c03aa686aee#internal
