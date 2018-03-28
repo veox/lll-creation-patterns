@@ -1,6 +1,6 @@
-pragma solidity ^0.4.19;
+pragma solidity ^0.4.21;
 
-interface cloning_vat {
+contract cloning_vat {
     function clone(address _from) public;
-    //event cloned(address indexed _caller, address indexed _from, address _to);
+    event cloned(address indexed _caller, address indexed _from, address _to);
 }

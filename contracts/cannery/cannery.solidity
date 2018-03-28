@@ -1,6 +1,6 @@
-pragma solidity ^0.4.19;
+pragma solidity ^0.4.21;
 
-interface cannery {
+contract cannery {
     function () public; // actually consumes all of the call data
-    //event canned(address indexed _caller, address _can);
+    event canned(address indexed _caller, address _can);
 }

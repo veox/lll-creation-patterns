@@ -1,7 +1,7 @@
-pragma solidity ^0.4.19;
+pragma solidity ^0.4.21;
 
-interface can_opener {
+contract can_opener {
     function open(address _can) public;
     function open(address _can, bytes _data) public;
-    //event opened(address indexed _caller, address indexed _can, address _vegetable);
+    event opened(address indexed _caller, address indexed _can, address _vegetable);
 }
