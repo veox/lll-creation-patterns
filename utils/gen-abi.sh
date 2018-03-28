@@ -2,5 +2,6 @@
 
 for f in *.solidity; do
     name="`echo $f | cut -d. -f1`.lll.abi"
-    solc --abi $f | grep -E "^\[" > $name
+    echo "Generating $name from $f..."
+    solc --abi $f | grep -E "^\[" | json_reformat > $name
 done
