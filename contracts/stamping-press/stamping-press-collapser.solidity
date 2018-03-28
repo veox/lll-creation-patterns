@@ -1,6 +1,0 @@
-pragma solidity ^0.4.21;
-
-contract stamping_press_with_collapser_payload {
-    function stamp() public returns(address);
-    event stamped(address indexed _caller, address _product);
-}
