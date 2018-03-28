@@ -56,7 +56,7 @@ new `collapser`. An event to that effect will be emitted, and the
 newly-created contract's address returned by the `stamping-press`.
 
 (EtherScan will not display these, but you can look at the ["internal
-transactions"][tx13it] tab to see the where your precious `collapser`
+transactions"][tx21it] tab to see the where your precious `collapser`
 went.)
 
 [tx21it]: https://etherscan.io/tx/0xd3f3896f740332925372f29832337eada5604cf7c50c4b75d2656c03aa686aee#internal
