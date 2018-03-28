@@ -29,32 +29,9 @@ The tests are in [`../tests/`][tests].
 [tests]: ../tests
 
 
-## "Deployed on all networks"
-
-The [`furiate` script][furiate] has been used to deploy the contracts
-to multiple Ethereum networks with the same address.
-
-The addresses are also registered on mainnet ENS.
-
-[furiate]: https://gitlab.com/veox/furiate
-
-The networks are: ETH mainnet, Ropsten, Rinkeby, Kovan.
-
-A locally-compiled `lllc` from `solidity` v0.4.21 was used to compile
-the contracts.
-
-
 ## [`stamping-press`][stamping-press] (and `cog`, a.k.a. `greeter`)
 
 [stamping-press]: stamping-press
-
-**Deployed** on all networks as `0xE725E70c7A00fF3Fb32B6C01Cce44600710d673e`
-(ENS: `stamping-press.veoxxoev.eth`), with a [`collapser`][collapser]
-payload for demonstration purposes.
-
-[collapser]: https://gitlab.com/veox/lll-contracts/blob/c419bd68c2c15115c50ccd28d9d9163117658505/contracts/collapser.lll
-
-**Compiled** with optimisations.
 
 The straightforward Factory. Used in Solidity programs with the `new`
 keyword.
@@ -100,11 +77,6 @@ the same contract!
 
 [cloning-vat]: cloning-vat
 
-**Deployed** on all networks as `0xC533fFbdcc952069f710dc3f6FA08510125Bcd49`
-(ENS: `cloning-vat.veoxxoev.eth`).
-
-**Compiled** without optimisations.
-
 The honeybadger Factory.
 
 Takes an account address as input and creates a copy of that account's
@@ -145,17 +117,6 @@ a `stamping-press` as input, or any other factory for that matter.
 ## [`cannery`][cannery] (and complementary `can-opener`)
 
 [cannery]: cannery
-
-**Deployed** on all networks as:
-
-* `cannery`: `0x25d62DA8E032c5cba01c351c7868f4b1a0E0949e`
-  (ENS: `cannery.veoxxoev.eth`),
-* `can-opener`: `0xC9d28DcA3CD8cCFDF583643837E3C637Bc59A789`
-  (ENS: `can-opener.veoxxoev.eth`),
-* `collapser` (canned): `0x1e77625c9818c25d4f4FA6b40D24Ef231D1740eF`
-  (ENS: `canned-collapser.veoxxoev.eth`).
-
-**Compiled** with optimisations.
 
 The one-size-fits-all Factory. Something similar [has been
 proposed][shared] as the `copyof` or `shared` keyword in Solidity.

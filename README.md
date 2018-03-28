@@ -3,8 +3,14 @@
 Various ways to implement Ethereum contract copying, at different degrees
 of homogeneity, using LLL.
 
-See [`lll-contracts`](https://gitlab.com/veox/lll-contracts), where the
-programs here originated from, for some simpler examples.
+For a high-level description, see [`contracts/README`][readme]. For
+something more hands-on, see [`contracts/USING`][using].
+
+[readme]: contracts/README.md
+[using]: contracts/USING.md
+
+See [`lll-contracts`](https://gitlab.com/veox/lll-contracts), for some
+more simple examples.
 
 [Populus](https://github.com/ethereum/populus/) is used for development.
 Although `requirements.txt` specifies `populus==2.1.0`, the actual version
