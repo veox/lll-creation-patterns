@@ -23,7 +23,7 @@ compile the contracts.
 
 ## `collapser` (demo payload)
 
-Source code: [`collapser.lll`][collapser-src] in `lll-contracts` repo.
+* Source code: [`collapser.lll`][collapser-src] in `lll-contracts` repo.
 
 [collapser-src]: https://gitlab.com/veox/lll-contracts/blob/c419bd68c2c15115c50ccd28d9d9163117658505/contracts/collapser.lll
 
@@ -36,15 +36,15 @@ with any ether that might have been sent to it.
 
 ## `stamping-press` (with `collapser` as static payload)
 
-Address: `0xb20ad6089B9BEDCF6dDaadc4D9A56AD86694359a`
-ENS: `stamping-press.veoxxoev.eth`
-Source code: [`stamping-press-collapser.lll`][spc-src]
-ABI: [`stamping-press-collapser.lll.abi`][spc-abi]
-Solidity interface: [`stamping-press-collapser.solidity`][spc-sol]
+* Address: `0xb20ad6089B9BEDCF6dDaadc4D9A56AD86694359a`
+* ENS: `stamping-press.veoxxoev.eth`
+* Source code: [`stamping-press-collapser.lll`][spc-src]
+* ABI: [`stamping-press-collapser.lll.abi`][spc-abi]
+* Solidity interface: [`stamping-press-collapser.solidity`][spc-sol]
 
-[spc-src]:
-[spc-abi]:
-[spc-sol]:
+[spc-src]: https://gitlab.com/veox/lll-creation-patterns/blob/923e322130ff611ebd2bbd16320d96f2b466844b/contracts/stamping-press/stamping-press-collapser.lll
+[spc-abi]: https://gitlab.com/veox/lll-creation-patterns/blob/923e322130ff611ebd2bbd16320d96f2b466844b/contracts/stamping-press/stamping-press-collapser.lll.abi
+[spc-sol]: https://gitlab.com/veox/lll-creation-patterns/blob/923e322130ff611ebd2bbd16320d96f2b466844b/contracts/stamping-press/stamping-press-collapser.solidity
 
 On any invocation of the `stamp()` function, this contract will deploy a
 new `collapser`. An event to that effect will be emitted, and the
@@ -59,43 +59,43 @@ went.
 
 ## `cloning-vat` 
 
-Address: `0xC533fFbdcc952069f710dc3f6FA08510125Bcd49`
-ENS: `cloning-vat.veoxxoev.eth`
-Source code: [../contracts/cloning-vat.lll]
-ABI: [../contracts/cloning-vat.lll.abi]
-Solidity interface: [../contracts/cloning-vat.solidity]
+* Address: `0xC533fFbdcc952069f710dc3f6FA08510125Bcd49`
+* ENS: `cloning-vat.veoxxoev.eth`
+* Source code: [../contracts/cloning-vat.lll]
+* ABI: [../contracts/cloning-vat.lll.abi]
+* Solidity interface: [../contracts/cloning-vat.solidity]
 
 TODO
 
 
 ## `cannery`
 
-Address: `0x25d62DA8E032c5cba01c351c7868f4b1a0E0949e`
-ENS: `cannery.veoxxoev.eth`
-Source code: [../contracts/cannery.lll]
-ABI: [../contracts/cannery.lll.abi]
-Solidity interface: [../contracts/cannery.solidity]
+* Address: `0x25d62DA8E032c5cba01c351c7868f4b1a0E0949e`
+* ENS: `cannery.veoxxoev.eth`
+* Source code: [../contracts/cannery.lll]
+* ABI: [../contracts/cannery.lll.abi]
+* Solidity interface: [../contracts/cannery.solidity]
 
 TODO
 
 
 ## A canned `collapser`
 
-Address: `0x1e77625c9818c25d4f4FA6b40D24Ef231D1740eF`
-ENS: `canned-collapser.veoxxoev.eth`
-Source code: N/A
-ABI: N/A
-Solidity interface: N/A
+* Address: `0x1e77625c9818c25d4f4FA6b40D24Ef231D1740eF`
+* ENS: `canned-collapser.veoxxoev.eth`
+* Source code: N/A
+* ABI: always REVERTs
+* Solidity interface: N/A
 
-TODO
+The contract created by `cannery` above.
 
 
 ## `can-opener`
 
-Address: `0xC9d28DcA3CD8cCFDF583643837E3C637Bc59A789`
-ENS: `can-opener.veoxxoev.eth`
-Source code: [../contracts/can-opener.lll]
-ABI: [../contracts/can-opener.lll.abi]
-Solidity interface: [../contracts/can-opener.solidity]
+* Address: `0xC9d28DcA3CD8cCFDF583643837E3C637Bc59A789`
+* ENS: `can-opener.veoxxoev.eth`
+* Source code: [../contracts/can-opener.lll]
+* ABI: [../contracts/can-opener.lll.abi]
+* Solidity interface: [../contracts/can-opener.solidity]
 
 TODO
