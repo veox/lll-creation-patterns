@@ -49,9 +49,9 @@ together with any ether that might have been sent to it.
 * Solidity interface: [`stamping-press-collapser.solidity`][spc-sol]
 
 [spc-es]: https://etherscan.io/address/0xb20ad6089B9BEDCF6dDaadc4D9A56AD86694359a
-[spc-src]: https://gitlab.com/veox/lll-creation-patterns/blob/923e322130ff611ebd2bbd16320d96f2b466844b/contracts/stamping-press/stamping-press-collapser.lll
-[spc-abi]: https://gitlab.com/veox/lll-creation-patterns/blob/923e322130ff611ebd2bbd16320d96f2b466844b/contracts/stamping-press/stamping-press-collapser.lll.abi
-[spc-sol]: https://gitlab.com/veox/lll-creation-patterns/blob/923e322130ff611ebd2bbd16320d96f2b466844b/contracts/stamping-press/stamping-press-collapser.solidity
+[spc-src]: https://gitlab.com/veox/lll-creation-patterns/blob/090df869bf6036c0856688b618e06fb02ab901c4/contracts/stamping-press/stamping-press-collapser.lll
+[spc-abi]: https://gitlab.com/veox/lll-creation-patterns/blob/090df869bf6036c0856688b618e06fb02ab901c4/contracts/stamping-press/stamping-press-collapser.lll.abi
+[spc-sol]: https://gitlab.com/veox/lll-creation-patterns/blob/090df869bf6036c0856688b618e06fb02ab901c4/contracts/stamping-press/stamping-press-collapser.solidity
 
 On any invocation of the `stamp()` function, this contract will deploy a
 new `collapser`. An event to that effect will be emitted, and the
@@ -73,9 +73,9 @@ went.)
 * Solidity interface: [`cloning-vat.solidity`][cv-sol]
 
 [cv-es]: https://etherscan.io/address/0xC533fFbdcc952069f710dc3f6FA08510125Bcd49
-[cv-src]: https://gitlab.com/veox/lll-creation-patterns/blob/923e322130ff611ebd2bbd16320d96f2b466844b/contracts/cloning-vat/cloning-vat.lll
-[cv-abi]: https://gitlab.com/veox/lll-creation-patterns/blob/923e322130ff611ebd2bbd16320d96f2b466844b/contracts/cloning-vat/cloning-vat.lll.abi
-[cv-sol]: https://gitlab.com/veox/lll-creation-patterns/blob/923e322130ff611ebd2bbd16320d96f2b466844b/contracts/cloning-vat/cloning-vat.solidity
+[cv-src]: https://gitlab.com/veox/lll-creation-patterns/blob/090df869bf6036c0856688b618e06fb02ab901c4/contracts/cloning-vat/cloning-vat.lll
+[cv-abi]: https://gitlab.com/veox/lll-creation-patterns/blob/090df869bf6036c0856688b618e06fb02ab901c4/contracts/cloning-vat/cloning-vat.lll.abi
+[cv-sol]: https://gitlab.com/veox/lll-creation-patterns/blob/090df869bf6036c0856688b618e06fb02ab901c4/contracts/cloning-vat/cloning-vat.solidity
 
 Having deployed a `collapser` as shown above, one can use the
 `cloning-vat` to make an exact copy of it:
@@ -105,9 +105,9 @@ a node, submitting the bytecode...
 * Solidity interface: [`cannery.solidity`][cannery-sol]
 
 [cannery-es]: https://etherscan.io/address/0x25d62DA8E032c5cba01c351c7868f4b1a0E0949e
-[cannery-src]: https://gitlab.com/veox/lll-creation-patterns/blob/923e322130ff611ebd2bbd16320d96f2b466844b/contracts/cannery/cannery.lll
-[cannery-abi]: https://gitlab.com/veox/lll-creation-patterns/blob/923e322130ff611ebd2bbd16320d96f2b466844b/contracts/cannery/cannery.lll.abi
-[cannery-sol]: https://gitlab.com/veox/lll-creation-patterns/blob/923e322130ff611ebd2bbd16320d96f2b466844b/contracts/cannery/cannery.solidity
+[cannery-src]: https://gitlab.com/veox/lll-creation-patterns/blob/090df869bf6036c0856688b618e06fb02ab901c4/contracts/cannery/cannery.lll
+[cannery-abi]: https://gitlab.com/veox/lll-creation-patterns/blob/090df869bf6036c0856688b618e06fb02ab901c4/contracts/cannery/cannery.lll.abi
+[cannery-sol]: https://gitlab.com/veox/lll-creation-patterns/blob/090df869bf6036c0856688b618e06fb02ab901c4/contracts/cannery/cannery.solidity
 
 Say you wanted to avoid deploying a new `stamping-press` every time you changed
 its payload; or wanted to run a payload that has initialisation code (called a
@@ -146,9 +146,9 @@ The contract created by `cannery` above. Can't be called directly.
 * Solidity interface: [`can-opener.solidity`][co-sol]
 
 [co-es]: https://etherscan.io/address/0xC9d28DcA3CD8cCFDF583643837E3C637Bc59A789
-[co-src]: https://gitlab.com/veox/lll-creation-patterns/blob/923e322130ff611ebd2bbd16320d96f2b466844b/contracts/cannery/can-opener.lll
-[co-abi]: https://gitlab.com/veox/lll-creation-patterns/blob/923e322130ff611ebd2bbd16320d96f2b466844b/contracts/cannery/can-opener.lll.abi
-[co-sol]: https://gitlab.com/veox/lll-creation-patterns/blob/923e322130ff611ebd2bbd16320d96f2b466844b/contracts/cannery/can-opener.solidity
+[co-src]: https://gitlab.com/veox/lll-creation-patterns/blob/090df869bf6036c0856688b618e06fb02ab901c4/contracts/cannery/can-opener.lll
+[co-abi]: https://gitlab.com/veox/lll-creation-patterns/blob/090df869bf6036c0856688b618e06fb02ab901c4/contracts/cannery/can-opener.lll.abi
+[co-sol]: https://gitlab.com/veox/lll-creation-patterns/blob/090df869bf6036c0856688b618e06fb02ab901c4/contracts/cannery/can-opener.solidity
 
 This `can-opener` is complementary to the `cannery` above.
 
