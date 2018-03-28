@@ -8,15 +8,16 @@ useful, see [the `contracts` `README`][contracts-readme].
 [contracts-readme]: ../contracts/README.md
 
 The contracts described below have been deployed to the same addresses
-across multiple chains (ETH-mainnet/Ropsten/Rinkeby/Kovan), and have
-these addresses registered on mainnet ENS as
-`<contract-name>.veoxxoev.eth` for convenience.
+across multiple chains (ETH-mainnet/Ropsten/Rinkeby/Kovan).
 
 The [`furiate`][furiate] script was used to do this; transaction data
 can be seen [here][schedule].
 
 [furiate]: https://gitlab.com/veox/furiate
 [schedule]: https://gitlab.com/veox/furiate/blob/d9eb4d2d75f3601a081bf8f830fd4cd12f8177ce/schedule.py
+
+Their addresses have been registered on mainnet ENS as
+`<contract-name>.veoxxoev.eth` for convenience.
 
 A locally-compiled `lllc` from `solidity` release v0.4.21 was used to
 compile the contracts.
