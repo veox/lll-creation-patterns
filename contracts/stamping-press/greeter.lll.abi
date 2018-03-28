@@ -3,19 +3,23 @@
         "constant": false,
         "inputs": [
             {
-                "name": "_greeting",
-                "type": "uint256"
+                "name": "",
+                "type": "string"
             }
         ],
         "name": "setGreeting",
-        "outputs": [],
+        "outputs": [
+
+        ],
         "payable": false,
         "stateMutability": "nonpayable",
         "type": "function"
     },
     {
         "constant": true,
-        "inputs": [],
+        "inputs": [
+
+        ],
         "name": "greet",
         "outputs": [
             {
@@ -29,7 +33,9 @@
     },
     {
         "constant": true,
-        "inputs": [],
+        "inputs": [
+
+        ],
         "name": "greeting",
         "outputs": [
             {
@@ -40,11 +46,5 @@
         "payable": false,
         "stateMutability": "view",
         "type": "function"
-    },
-    {
-        "inputs": [],
-        "payable": false,
-        "stateMutability": "nonpayable",
-        "type": "constructor"
     }
 ]

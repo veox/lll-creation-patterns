@@ -1,7 +1,7 @@
-pragma solidity ^0.4.19;
+pragma solidity ^0.4.21;
 
-interface greeter {
-    function greet() view returns(uint256);
-    function greeting() view returns(uint256);
+contract greeter {
+    function greet() public view returns(uint256);
+    function greeting() public view returns(uint256);
     function setGreeting(string) public;
 }
